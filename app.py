@@ -1,8 +1,5 @@
 from flask import Flask, url_for, render_template, session, redirect, request, flash
 from flask_sqlalchemy import SQLAlchemy
-#from flask_wtf import FlaskForm
-#from wtforms import StringField, SubmitField
-#from wtforms.validators import DataRequired
 import os
 
 # Initialize app
@@ -12,10 +9,9 @@ app = Flask (__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql://postgres:2002@localhost:5432/HMS"
 app.config['SECRET_KEY'] = 'thisissecret'
 
-#bootstrap = Bootstrap(app)
 db = SQLAlchemy(app)
 
-### Models ###
+####===Models===####
 class Patients(db.Model):
     __tablename__ = 'patient'
     pid = db.Column('PID', db.Integer, primary_key = True)
@@ -55,7 +51,7 @@ class Department(db.Model):
     #def __repr__(self):
     #    return f"{self.dep_code}:{self.dep_name}"
 
-class Medicince(db.Model):
+class Medicine(db.Model):
     __tablename__ = 'medicine'
     NDC = db.Column('NDC', db.String(255), primary_key = True)
     name = db.Column(db.String(255))
@@ -116,13 +112,19 @@ class Nurse(db.Model):
 def login():
     return render_template('login.html')
 
-###==Admin==###
+##==Admin==##
+"""
+This part is only for the admin
+"""
 # Dashboard 
 @app.route('/dashboard')
 def index():
     return render_template('dashboard.html')
 
 # Patient
+"""
+CRUD Patient
+"""
 @app.route('/patients')
 def patients():
     patients = Patients.query.all()
@@ -181,7 +183,10 @@ def add_patient():
 
     return redirect('/patients')
 
-### Department ###
+# Department
+"""
+CRUD Department
+"""
 @app.route('/departments')
 def departments():
     deps = Department.query.all()
@@ -197,12 +202,18 @@ def delete_department(dep_code):
     return redirect("/departments")
 
 # Medicine
+"""
+CRUD Medicine
+"""
 @app.route('/medicine')
 def medicine():
-    med = Medicince.query.all()
+    med = Medicine.query.all()
     return render_template('medicine.html', med=med)
 
-### Doctor ###
+# Doctor
+"""
+CRUD Doctor
+"""
 @app.route('/doctors')
 def doctors():
     doctors = Doctors.query.all()
@@ -253,7 +264,10 @@ def add_doctor():
 
     return redirect('/doctors')
 
-### Nurse ###
+# Nurse
+"""
+CRUD Nurse
+"""
 @app.route('/nurse')
 def nurse():
     nurse = Nurse.query.all()
@@ -300,7 +314,10 @@ def add_nurse():
 
     return redirect('/nurse')
 
-### Rooms ###
+# Rooms
+"""
+CRUD Room
+"""
 @app.route('/rooms')
 def rooms():
     rooms = Room.query.all()
@@ -311,7 +328,9 @@ def rooms():
 
 
 ###==Doctor==###
-### Doctor private
+"""
+This part is only for the users logged in as doctor
+"""
 @app.route('/doctor/dashboard')
 def doctor():
     docs = Doctors.query.all()
