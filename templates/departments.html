@@ -7,9 +7,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <meta name="google-site-verification" content="kCT200-J0rfczENRkJQdYCqsDKkUo3Hvr3KZic_otwU" />
 
-    <meta name="description" content="Sb Admin dashboard migrated to Python by AppSeed" />
-    <meta name="author" content="startbootstrap & AppSeed" />
-    
     <title>
         Departments 
     </title>
@@ -23,9 +20,8 @@
 
 </head>
 <body class="sb-nav-fixed">
-        
-    
-<nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
+         
+        <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
             <!-- Navbar Brand-->
             <a class="navbar-brand ps-3" href="/dashboard">Hospital Management</a>
             <!-- Sidebar Toggle-->
@@ -55,54 +51,54 @@
         <div id="layoutSidenav_nav">
 
             
-<nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
-    <div class="sb-sidenav-menu">
-        <div class="nav">
+        <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
+            <div class="sb-sidenav-menu">
+                <div class="nav">
 
-            <a class="nav-link   " href="/dashboard">
-                <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt fa-lg"></i></div>
-                Dashboard
-            </a>
+                    <a class="nav-link   " href="/dashboard">
+                        <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt fa-lg"></i></div>
+                        Dashboard
+                    </a>
 
-            <a class="nav-link " href="/patients">
-                <div class="sb-nav-link-icon"><i class="fas fa-user fa-lg"></i></div>
-                &nbsp;Patients
-            </a>
-            
-            <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
-                <div class="sb-nav-link-icon"><i class="fas fa-users fa-lg"></i></div>
-                Employee
-                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-            </a>
-            <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
-                <nav class="sb-sidenav-menu-nested nav">
-                    <a class="nav-link" href="/doctors">Doctors</a>
-                    <a class="nav-link" href="/nurse">Nurse</a>
-                </nav>
+                    <a class="nav-link " href="/patients">
+                        <div class="sb-nav-link-icon"><i class="fas fa-user fa-lg"></i></div>
+                        &nbsp;Patients
+                    </a>
+                    
+                    <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
+                        <div class="sb-nav-link-icon"><i class="fas fa-users fa-lg"></i></div>
+                        Employee
+                        <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                    </a>
+                    <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
+                        <nav class="sb-sidenav-menu-nested nav">
+                            <a class="nav-link" href="/doctors">Doctors</a>
+                            <a class="nav-link" href="/nurse">Nurse</a>
+                        </nav>
+                    </div>
+
+                    <a class="nav-link " href="/rooms">
+                        <div class="sb-nav-link-icon"><i class="fas fa-bed fa-lg"></i></div>
+                        Rooms
+                    </a>
+
+                    <a class="nav-link " href="/medicine">
+                        <div class="sb-nav-link-icon"><i class="fas fa-capsules fa-lg"></i></div>
+                        Medicine
+                    </a>
+
+                    <a class="nav-link active" href="/departments">
+                        <div class="sb-nav-link-icon"><i class="fas fa-hotel fa-lg"></i></div>
+                        Departments
+                    </a>
+
+                </div>
             </div>
-
-            <a class="nav-link " href="/rooms">
-                <div class="sb-nav-link-icon"><i class="fas fa-bed fa-lg"></i></div>
-                Rooms
-            </a>
-
-            <a class="nav-link " href="/medicine">
-                <div class="sb-nav-link-icon"><i class="fas fa-capsules fa-lg"></i></div>
-                Medicine
-            </a>
-
-            <a class="nav-link active" href="/departments">
-                <div class="sb-nav-link-icon"><i class="fas fa-hotel fa-lg"></i></div>
-                Departments
-            </a>
-
-        </div>
-    </div>
-    <div class="sb-sidenav-footer">
-        <div class="small">Logged in as:</div>
-        admin
-    </div>
-</nav>
+            <div class="sb-sidenav-footer">
+                <div class="small">Logged in as:</div>
+                admin
+            </div>
+        </nav>
             
         </div>
         <div id="layoutSidenav_content">
@@ -113,6 +109,30 @@
 
         <div class="container-fluid px-4">
             <h1 class="mt-4">Departments</h1>
+            <button type="button" class="btn btn-success float-end" data-bs-toggle="modal" data-bs-target="#createModal">Add Department</button>
+            <div class="modal fade" id="createModal" tabindex="-1" aria-labelledby="createModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="createModalLabel">Add Department</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form action="/add_department" method="POST">
+                                <div class="mb-3">
+                                    <label for="dep_code" class="form-label">Department Code</label>
+                                    <input type="text" class="form-control" id="dep_code" name="dep_code" placeholder="Enter Department Code" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="dep_name" class="form-label">Department Name</label>
+                                    <input type="text" class="form-control" id="dep_name" name="dep_name" placeholder="Enter Department Name" required>
+                                </div>
+                                <button type="submit" class="btn btn-primary float-start">Add</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <ol class="breadcrumb mb-4">
                 <li class="breadcrumb-item"><a href="/dashboard">Dashboard</a></li>
                 <li class="breadcrumb-item active">Departments</li>
@@ -142,21 +162,41 @@
                                 <td>{{ dep.dep_code }}</td>
                                 <td>{{ dep.dep_name }}</td>
                                 <td>
-                                    
-                                    <a href="/dashboard" class="btn btn-primary">Edit</a>
+                                    <a href="/departments/{{ dep.dep_code }}/edit" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editModal{{ dep.dep_code }}">
+                                        Edit
+                                    </a>
+                                    <div class="modal fade" id="editModal{{ dep.dep_code  }}" tabindex="-1" aria-labelledby="editModalLabel{{ dep.dep_code }}" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="editModalLabel{{ dep.dep_code }}">Edit Department</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <form action="/department/{{ dep.dep_code }}/edit" method="POST">
+                                                        <div class="mb-3">
+                                                            <label for="forename" class="form-label">Department Code</label>
+                                                            <input type="text" class="form-control" id="forename" name="forename" value="{{ dep.dep_code }}">
+                                                        </div>
+                                                        <div class="mb-3">
+                                                            <label for="lastname" class="form-label">Department Name</label>
+                                                            <input type="text" class="form-control" id="dep_name" name="dep_name" value="{{ dep.dep_name }}">
+                                                        </div>
+                                                        <button type="submit" class="btn btn-primary">Save Changes</button>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                     <a href="/departments/{{ dep.dep_code }}/delete" class="btn btn-danger delete-btn">Delete</a>
                                 </td>
                             </tr>
                             {% endfor %}
-                            
                         </tbody>
                     </table>
                 </div>
-
         </div>
-    </main>
-
-            
+    </main>    
         </div>
     </div>
 
@@ -164,18 +204,12 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
     <script src="https://appsrv1-147a1.kxcdn.com/sb-admin/js/scripts.js"></script>
 
- 
-
     <!-- Specific Page JS goes HERE  -->
-    
-
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
     <script src="https://appsrv1-147a1.kxcdn.com/sb-admin/demo/chart-area-demo.js"></script>
     <script src="https://appsrv1-147a1.kxcdn.com/sb-admin/demo/chart-bar-demo.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" crossorigin="anonymous"></script>
     <script src="https://appsrv1-147a1.kxcdn.com/sb-admin/js/datatables-simple-demo.js"></script>
-
-
-        
+    
 </body>
 </html>

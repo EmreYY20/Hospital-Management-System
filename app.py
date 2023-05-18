@@ -23,9 +23,9 @@ class Patients(db.Model):
     phone_number = db.Column(db.String(255))
     date_admitted = db.Column(db.String(255))
     date_discharged = db.Column(db.String(255))
-
+    assigned_doc = db.Column(db.Integer)
  
-    def __init__(self, forename, lastname, age_sex, date_of_birth, address, phone_number, date_admitted, date_discharged):
+    def __init__(self, forename, lastname, age_sex, date_of_birth, address, phone_number, date_admitted, date_discharged, assigned_doc):
         self.forename = forename
         self.lastname = lastname
         self.age_sex = age_sex
@@ -34,7 +34,7 @@ class Patients(db.Model):
         self.phone_number = phone_number
         self.date_admitted = date_admitted
         self.date_discharged = date_discharged
-
+        self.assigned_doc = assigned_doc
  
     #def __repr__(self):
     #    return f"{self.dep_code}:{self.dep_name}"
@@ -56,11 +56,13 @@ class Medicine(db.Model):
     NDC = db.Column('NDC', db.String(255), primary_key = True)
     name = db.Column(db.String(255))
     count = db.Column(db.Integer)
+    mid = db.Column(db.Integer)
  
-    def __init__(self, NDC, name, count):
+    def __init__(self, NDC, name, count, mid):
         self.NDC = NDC
         self.name = name
         self.count = count
+        self.mid = mid
 
 class Doctors(db.Model):
     __tablename__ = 'doctor'
@@ -71,25 +73,29 @@ class Doctors(db.Model):
     address = db.Column(db.String(255))
     phone_number = db.Column(db.String(255))
     department = db.Column(db.String(255))
+    assigned_patients = db.Column(db.Integer)
     
-    def __init__(self, forename, lastname, date_of_birth, address, phone_number, department):
+    def __init__(self, forename, lastname, date_of_birth, address, phone_number, department, assigned_patients):
         self.forename = forename
         self.lastname = lastname
         self.date_of_birth = date_of_birth
         self.address = address
         self.phone_number = phone_number
         self.department = department
+        self.assigned_patients = assigned_patients
 
 class Room(db.Model):
     __tablename__ = 'room'
     room_number = db.Column('room_number', db.String(255), primary_key = True)
     capacity = db.Column(db.Integer)
     free_of_it = db.Column(db.Integer)
+    rid = db.Column(db.Integer)
  
-    def __init__(self, room_number, capacity, free_of_it):
+    def __init__(self, room_number, capacity, free_of_it, rid):
         self.room_number = room_number
         self.cap = capacity
         self.free_of_it = free_of_it
+        self.rid = rid
     
 class Nurse(db.Model):
     __tablename__ = 'nurse'
@@ -128,8 +134,12 @@ CRUD Patient
 @app.route('/patients')
 def patients():
     patients = Patients.query.all()
-    patients_count = len(patients)
-    return render_template('patients.html', patients=patients, patients_count=patients_count)
+    return render_template('patients.html', patients=patients)
+
+@app.route('/api/patient_count')
+def api_patient_count():
+    patient_count = Patients.query.count()
+    return {"count": patient_count}
 
 @app.route('/patients/<pid>/delete', methods=["GET", 'POST'])
 def delete_patient(pid):
@@ -154,7 +164,7 @@ def edit_patient(pid):
         patient.date_admitted = request.form['admitted']
         patient.date_discharged = request.form['discharged']
         patient.phone_number = request.form['phone']
-
+        patient.assigned_doc = request.form['assigned_doc']
         # Update other fields as necessary
 
         # Save the changes to the database
@@ -175,9 +185,9 @@ def add_patient():
     date_admitted = request.form['date_admitted']
     date_discharged = request.form['date_discharged']
     phone_number = request.form['phone_number']
-    # Get other patient attributes...
+    assigned_doc = request.form['assigned_doc']
 
-    new_patient = Patients(forename=forename, lastname=lastname, age_sex=age_sex, date_of_birth=date_of_birth, address=address, phone_number=phone_number, date_admitted=date_admitted, date_discharged=date_discharged)
+    new_patient = Patients(forename=forename, lastname=lastname, age_sex=age_sex, date_of_birth=date_of_birth, address=address, phone_number=phone_number, date_admitted=date_admitted, date_discharged=date_discharged, assigned_doc=assigned_doc)
     db.session.add(new_patient)
     db.session.commit()
 
@@ -201,6 +211,33 @@ def delete_department(dep_code):
         flash('Department deleted successfully.', 'success')
     return redirect("/departments")
 
+@app.route('/departments/<dep_code>/edit', methods=['POST'])
+def edit_department(dep_code):
+    dep = Department.query.get(dep_code)
+
+    if request.method == 'POST':
+        dep.dep_code = request.form['dep_code']
+        dep.dep_name = request.form['dep_name']
+        # Update other fields as necessary
+
+        # Save the changes to the database
+        db.session.commit()
+
+        # Redirect the user back to the patients listing page or a specific route
+        return redirect("/departments")
+
+@app.route('/add_department', methods=['POST'])
+def add_department():
+    dep_code = request.form['dep_code']
+    dep_name = request.form['dep_name']
+
+    # Get other patient attributes...
+
+    new_dep = Department(dep_code=dep_code, dep_name=dep_name)
+    db.session.add(new_dep)
+    db.session.commit()
+
+    return redirect('/departments')
 # Medicine
 """
 CRUD Medicine
@@ -210,6 +247,43 @@ def medicine():
     med = Medicine.query.all()
     return render_template('medicine.html', med=med)
 
+@app.route('/medicine/<mid>/delete', methods=["GET", 'POST'])
+def delete_medicine(mid):
+    mid = Medicine.query.get(mid)
+    if mid:
+        db.session.delete(mid)
+        db.session.commit()
+        flash('Medicine deleted successfully.')
+    return redirect("/medicine")
+
+@app.route('/medicine/<mid>/edit', methods=['GET', 'POST'])
+def edit_medicine(mid):
+    med = Medicine.query.get(mid)
+
+    if request.method == 'POST':
+        # Update the patient's information with the submitted form data
+        med.NDC = request.form['NDC']
+        med.name = request.form['name']
+        med.count = request.form['count']
+
+        # Save the changes to the database
+        db.session.commit()
+
+        # Redirect the user back to the patients listing page or a specific route
+        return redirect("/medicine")
+
+@app.route('/medicine', methods=['POST'])
+def add_medicine():
+    NDC = request.form['NDC']
+    name = request.form['name']
+    count = request.form['count']
+
+    new_med = Medicine(NDC=NDC, name=name, count=count)
+    db.session.add(new_med)
+    db.session.commit()
+
+    return redirect('/medicine')
+
 # Doctor
 """
 CRUD Doctor
@@ -217,7 +291,13 @@ CRUD Doctor
 @app.route('/doctors')
 def doctors():
     doctors = Doctors.query.all()
-    return render_template('doctors.html', doctors=doctors)
+    departments = Department.query.with_entities(Department.dep_code).all()
+    return render_template('doctors.html', doctors=doctors, departments=departments)
+
+@app.route('/api/doctor_count')
+def api_doctor_count():
+    doctor_count = Doctors.query.count()
+    return {"count": doctor_count}
 
 @app.route('/doctors/<did>/delete', methods=["GET", 'POST'])
 def delete_doctor(did):
@@ -240,6 +320,7 @@ def edit_doctor(did):
         doctors.address = request.form['address']
         doctors.phone_number = request.form['phone']
         doctors.dep = request.form['dep']
+        doctors.assigned_patients = request.form["assigned_patients"]
 
         # Save the changes to the database
         db.session.commit()
@@ -323,7 +404,42 @@ def rooms():
     rooms = Room.query.all()
     return render_template('rooms.html', rooms=rooms)
 
+@app.route('/rooms/<rid>/delete', methods=["GET", 'POST'])
+def delete_room(rid):
+    rid = Room.query.get(rid)
+    if rid:
+        db.session.delete(rid)
+        db.session.commit()
+        flash('Room deleted successfully.')
+    return redirect("/rooms")
 
+@app.route('/rooms/<rid>/edit', methods=['GET', 'POST'])
+def edit_rooms(rid):
+    rooms = Room.query.get(rid)
+
+    if request.method == 'POST':
+        # Update the patient's information with the submitted form data
+        rooms.room_number = request.form['room_number']
+        rooms.capactiy = request.form['capactiy']
+        rooms.free_of_it = request.form['free_of_it']
+
+        # Save the changes to the database
+        db.session.commit()
+
+        # Redirect the user back to the patients listing page or a specific route
+        return redirect("/rooms")
+
+@app.route('/rooms', methods=['POST'])
+def add_room():
+    room_number = request.form['room_number']
+    capacity = request.form['capacity']
+    free_of_it = request.form['free_of_it']
+
+    new_room = Room(room_number=room_number, capacity=capacity, free_of_it=free_of_it)
+    db.session.add(new_room)
+    db.session.commit()
+
+    return redirect('/rooms')
 
 
 

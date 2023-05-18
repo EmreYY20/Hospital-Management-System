@@ -112,20 +112,56 @@
     <main>
         <div class="container-fluid px-4">
             <h1 class="mt-4">Dashboard</h1>
-
+            
             <div class="row">
                 <div class="col-xl-3 col-md-6">
                     <div class="card bg-light text mb-4">
-                        <div class="card-body">Patients</div>
+                        <div class="card-body"><b><span id="patient-count"></span></b>
+                            Patients</div>
                         <div class="card-footer d-flex align-items-center justify-content-between">
                             <a class="small text stretched-link" href="/patients">View Details</a>
+                            <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+                            <script>
+                            $(document).ready(function() {
+                                // Fetch the patient count using AJAX
+                                $.ajax({
+                                    url: "/api/patient_count",
+                                    type: "GET",
+                                    success: function(data) {
+                                        // Update the element with the patient count
+                                        $("#patient-count").text(data.count);
+                                    },
+                                    error: function(xhr, status, error) {
+                                        console.error(error);
+                                    }
+                                });
+                            });
+                            </script>
                             <div class="small text"><i class="fas fa-angle-right"></i></div>
                         </div>
                     </div>
                 </div>
                 <div class="col-xl-3 col-md-6">
                     <div class="card bg-light text mb-4">
-                        <div class="card-body">Doctors</div>
+                        <div class="card-body"><b><span id="doctor-count"></span></b>
+                            Doctors</div>
+                            <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+                            <script>
+                            $(document).ready(function() {
+                                // Fetch the patient count using AJAX
+                                $.ajax({
+                                    url: "/api/doctor_count",
+                                    type: "GET",
+                                    success: function(data) {
+                                        // Update the element with the patient count
+                                        $("#doctor-count").text(data.count);
+                                    },
+                                    error: function(xhr, status, error) {
+                                        console.error(error);
+                                    }
+                                });
+                            });
+                            </script>
                         <div class="card-footer d-flex align-items-center justify-content-between">
                             <a class="small text stretched-link" href="/doctors">View Details</a>
                             <div class="small text"><i class="fas fa-angle-right"></i></div>

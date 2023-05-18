@@ -146,8 +146,12 @@
                         <input type="tel" class="form-control" id="phone_number" name="phone_number" placeholder="Enter phone number" required>
                     </div>
                     <div class="mb-3">
-                        <label for="phone_number" class="form-label">Department</label>
-                        <input type="tel" class="form-control" id="dep" name="dep" placeholder="Enter department" required>
+                        <label for="dep" class="form-label">Department</label>
+                        <select class="form-control" id="dep" name="dep">
+                            {% for department in departments %}
+                            <option value="{{ department[0] }}">{{ department[0] }}</option>
+                            {% endfor %}
+                        </select>
                     </div>
                     
                     <button type="submit" class="btn btn-primary float-start">Add</button>
@@ -177,6 +181,7 @@
                                 <th>Address</th>
                                 <th>Phone Number</th>
                                 <th>Department</th>
+                                <th>Assigned Patients (ID)</th>                         
                                 <th>Actions</th>
                             </tr>
                         </thead>
@@ -189,6 +194,7 @@
                                 <th>Address</th>
                                 <th>Phone Number</th>
                                 <th>Department</th>
+                                <th>Assigned Patients (ID)</th>
                                 <th>Actions</th>
 
                             </tr>
@@ -203,6 +209,8 @@
                                 <td>{{ doc.address }}</td>
                                 <td>{{ doc.phone_number }}</td>
                                 <td>{{ doc.department }}</td>
+                                <td>{{ doc.assigned_patients }}</td>
+                                
                                 <td>
                                     
                                     <a href="/doctors/{{ doc.did }}/edit" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editModal{{ doc.did }}">
@@ -242,7 +250,12 @@
                                                         </div>
                                                         <div class="mb-3">
                                                             <label for="dep" class="form-label">Department</label>
-                                                            <input type="text" class="form-control" id="dep" name="dep" value="{{ doc.department }}">
+                                                            <select class="form-control" id="dep" name="dep">
+                                                                <option value="{{ doc.department }}">{{ doc.department }}</option>
+                                                                {% for department in departments %}
+                                                                <option value="{{ department[0] }}">{{ department[0] }}</option>
+                                                                {% endfor %}
+                                                            </select>
                                                         </div>
                                                         <!-- Add additional form fields or content here -->
                                                         <button type="submit" class="btn btn-primary">Save Changes</button>

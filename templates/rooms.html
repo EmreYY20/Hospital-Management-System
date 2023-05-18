@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 
     <meta charset="utf-8" />
@@ -11,7 +11,7 @@
     <meta name="author" content="startbootstrap & AppSeed" />
     
     <title>
-        Rooms 
+        Rooms
     </title>
 
     <link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet" />
@@ -58,7 +58,9 @@
 <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
     <div class="sb-sidenav-menu">
         <div class="nav">
-            <a class="nav-link " href="/dashboard">
+
+
+            <a class="nav-link   " href="/dashboard">
                 <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt fa-lg"></i></div>
                 Dashboard
             </a>
@@ -68,7 +70,7 @@
                 &nbsp;Patients
             </a>
             
-            <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
+            <a class="nav-link  collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
                 <div class="sb-nav-link-icon"><i class="fas fa-users fa-lg"></i></div>
                 Employee
                 <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
@@ -80,7 +82,7 @@
                 </nav>
             </div>
 
-            <a class="nav-link active" href="/rooms">
+            <a class="nav-link active " href="/rooms">
                 <div class="sb-nav-link-icon"><i class="fas fa-bed fa-lg"></i></div>
                 Rooms
             </a>
@@ -90,13 +92,10 @@
                 Medicine
             </a>
 
-            <a class="nav-link" href="/departments">
+            <a class="nav-link " href="/departments">
                 <div class="sb-nav-link-icon"><i class="fas fa-hotel fa-lg"></i></div>
                 Departments
             </a>
-
-            
-            
         </div>
     </div>
     <div class="sb-sidenav-footer">
@@ -111,45 +110,117 @@
             
 
     <main>
-
         <div class="container-fluid px-4">
             <h1 class="mt-4">Rooms</h1>
+            <button type="button" class="btn btn-success float-end" data-bs-toggle="modal" data-bs-target="#createModal">Add Room</button>
+<div class="modal fade" id="createModal" tabindex="-1" aria-labelledby="createModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="createModalLabel">Add Room</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <!-- Your form content here for creating a new Room -->
+                <form action="/add_room" method="POST">
+                    <!-- Form fields for creating a new doctor -->
+                    <div class="mb-3">
+                        <label for="room_number" class="form-label">Room Number</label>
+                        <input type="text" class="form-control" id="room_number" name="room_number" placeholder="Enter room number" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="capacity" class="form-label">Capacity</label>
+                        <input type="text" class="form-control" id="capacity" name="capacity" placeholder="Enter capacity" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="free_of_it" class="form-label">Free beds</label>
+                        <input type="text" class="form-control" id="free_of_it" name="free_of_it" placeholder="Enter amount of free beds" required>
+                    </div>
+                    
+        
+                    
+                    <button type="submit" class="btn btn-primary float-start">Add</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
             <ol class="breadcrumb mb-4">
                 <li class="breadcrumb-item"><a href="/dashboard">Dashboard</a></li>
-                <li class="breadcrumb-item active">Rooms</li>
+                <li class="breadcrumb-item active">Room</li>
+
             </ol>
-  
-            
-                
+
             <div class="card mb-4">
+
                 <div class="card-body">
-                    <table id="datatablesSimple" >
+                    <table id="datatablesSimple">
                         <thead>
                             <tr>
+                                <th>RID</th>
                                 <th>Room Number</th>
-                                <th>Capactiy</th>
+                                <th>Capacity</th>
                                 <th>Free beds</th>
                                 <th>Actions</th>
                             </tr>
                         </thead>
                         <tfoot>
                             <tr>
+                                <th>RID</th>
                                 <th>Room Number</th>
-                                <th>Capactiy</th>
+                                <th>Capacity</th>
                                 <th>Free beds</th>
                                 <th>Actions</th>
+
                             </tr>
                         </tfoot>
                         <tbody>
                             {% for room in rooms %}
                             <tr>
+                                <td>{{ room.rid }}</td>
                                 <td>{{ room.room_number }}</td>
                                 <td>{{ room.capacity }}</td>
                                 <td>{{ room.free_of_it }}</td>
                                 <td>
                                     
-                                    <a href="/dashboard" class="btn btn-primary">Edit</a>
-                                    <a href="/rooms/{{ room.room_number }}/delete" class="btn btn-danger delete-btn">Delete</a>
+                                    <a href="/rooms/{{ room.rid }}/edit" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editModal{{ room.rid }}">
+                                        Edit
+                                    </a>
+
+                                    <!-- Edit Doctor Modal -->
+                                    <div class="modal fade" id="editModal{{ room.rid }}" tabindex="-1" aria-labelledby="editModalLabel{{ room.rid }}" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="editModalLabel{{ room.rid }}">Edit Room</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <!-- Your form content here -->
+                                                    <form action="/rooms/{{ room.rid }}/edit" method="POST">
+                                                        <div class="mb-3">
+                                                            <label for="room_number" class="form-label">Room Number</label>
+                                                            <input type="text" class="form-control" id="room_number" name="room_number" value="{{ room.room_number }}">
+                                                        </div>
+                                                        <div class="mb-3">
+                                                            <label for="capacity" class="form-label">Capacity</label>
+                                                            <input type="text" class="form-control" id="capacity" name="capacity" value="{{ room.capacity }}">
+                                                        </div>
+                                                        <div class="mb-3">
+                                                            <label for="free_of_it" class="form-label">Free beds</label>
+                                                            <input type="text" class="form-control" id="free_of_it" name="free_of_it" value="{{ room.free_of_it }}">
+                                                        </div>
+                                                        
+                                                        <!-- Add additional form fields or content here -->
+                                                        <button type="submit" class="btn btn-primary">Save Changes</button>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <a href="/rooms/{{ room.rid }}/delete" class="btn btn-danger delete-btn">Delete</a>
                                 </td>
                             </tr>
                             {% endfor %}
@@ -157,10 +228,14 @@
                         </tbody>
                     </table>
                 </div>
-
+            </div>
         </div>
     </main>
 
+
+
+            
+    
             
         </div>
     </div>
@@ -174,9 +249,6 @@
     <!-- Specific Page JS goes HERE  -->
     
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
-    <script src="https://appsrv1-147a1.kxcdn.com/sb-admin/demo/chart-area-demo.js"></script>
-    <script src="https://appsrv1-147a1.kxcdn.com/sb-admin/demo/chart-bar-demo.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" crossorigin="anonymous"></script>
     <script src="https://appsrv1-147a1.kxcdn.com/sb-admin/js/datatables-simple-demo.js"></script>
 
