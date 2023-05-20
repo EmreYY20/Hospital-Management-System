@@ -1,0 +1,26 @@
+version: '3.8'
+
+services:
+    database:
+        image: 'postgres'
+        ports:
+            - '5433:5432'
+        container_name: postgres-HSMS
+        environment:
+            POSTGRES_USER: postgres
+            POSTGRES_PASSWORD: 2002
+            POSTGRES_DB: HMS
+        volumes:
+            - ./sql/schema.sql:/docker-entrypoint-initdb.d/1-schema.sql
+            - ./sql/data.sql:/docker-entrypoint-initdb.d/2-data.sql
+            - ./sql/foreign_keys_and_constraints.sql:/docker-entrypoint-initdb.d/3-foreign_keys_and_constraints.sql
+
+    adminer:
+        image: adminer
+        restart: always
+        ports:
+            - 1234:8080
+        depends_on:
+            - "database"
+
+
