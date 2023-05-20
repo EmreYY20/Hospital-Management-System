@@ -173,13 +173,13 @@
                                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                 </div>
                                                 <div class="modal-body">
-                                                    <form action="/department/{{ dep.dep_code }}/edit" method="POST">
+                                                    <form action="/departments/{{ dep.dep_code }}/edit" method="POST">
                                                         <div class="mb-3">
-                                                            <label for="forename" class="form-label">Department Code</label>
-                                                            <input type="text" class="form-control" id="forename" name="forename" value="{{ dep.dep_code }}">
+                                                            <label for="dep_code" class="form-label">Department Code</label>
+                                                            <input type="text" class="form-control" id="dep_code" name="dep_code" value="{{ dep.dep_code }}">
                                                         </div>
                                                         <div class="mb-3">
-                                                            <label for="lastname" class="form-label">Department Name</label>
+                                                            <label for="dep_name" class="form-label">Department Name</label>
                                                             <input type="text" class="form-control" id="dep_name" name="dep_name" value="{{ dep.dep_name }}">
                                                         </div>
                                                         <button type="submit" class="btn btn-primary">Save Changes</button>

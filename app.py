@@ -238,6 +238,7 @@ def add_department():
     db.session.commit()
 
     return redirect('/departments')
+
 # Medicine
 """
 CRUD Medicine
@@ -272,7 +273,7 @@ def edit_medicine(mid):
         # Redirect the user back to the patients listing page or a specific route
         return redirect("/medicine")
 
-@app.route('/medicine', methods=['POST'])
+@app.route('/add_medicine', methods=['POST'])
 def add_medicine():
     NDC = request.form['NDC']
     name = request.form['name']
@@ -381,7 +382,7 @@ def edit_nurse(nid):
         # Redirect the user back to the patients listing page or a specific route
         return redirect("/nurse")
 
-@app.route('/nurse', methods=['POST'])
+@app.route('/add_nurse', methods=['POST'])
 def add_nurse():
     forename = request.form['forename']
     lastname = request.form['lastname']
@@ -389,7 +390,7 @@ def add_nurse():
     address = request.form['address']
     phone_number = request.form['phone_number']
 
-    new_nurse = Doctors(forename=forename, lastname=lastname, date_of_birth=date_of_birth, address=address, phone_number=phone_number)
+    new_nurse = Nurse(forename=forename, lastname=lastname, date_of_birth=date_of_birth, address=address, phone_number=phone_number)
     db.session.add(new_nurse)
     db.session.commit()
 
@@ -429,7 +430,7 @@ def edit_rooms(rid):
         # Redirect the user back to the patients listing page or a specific route
         return redirect("/rooms")
 
-@app.route('/rooms', methods=['POST'])
+@app.route('/add_room', methods=['POST'])
 def add_room():
     room_number = request.form['room_number']
     capacity = request.form['capacity']
@@ -440,7 +441,6 @@ def add_room():
     db.session.commit()
 
     return redirect('/rooms')
-
 
 
 ###==Doctor==###
