@@ -3,64 +3,87 @@
 BEGIN;
 
 
-CREATE TABLE IF NOT EXISTS public.medicine
+CREATE TABLE IF NOT EXISTS public.department
 (
-    drug_code character varying(255) NOT NULL,
-    count integer NOT NULL
-);
-
-CREATE TABLE IF NOT EXISTS public.patient
-(
-    "PID" smallint NOT NULL,
-    forename character varying(255) NOT NULL,
-    lastname character varying(255) NOT NULL,
-    "age/sex" character varying(10) NOT NULL,
-    date_of_birth date NOT NULL,
-    address character varying(255),
-    date_admitted date NOT NULL,
-    date_discharged date NOT NULL,
-    phone_number character varying(25),
-    PRIMARY KEY ("PID")
+    dep_code character varying(10) COLLATE pg_catalog."default" NOT NULL,
+    dep_name character varying(255) COLLATE pg_catalog."default" NOT NULL,
+    CONSTRAINT department_pkey PRIMARY KEY (dep_code)
 );
 
 CREATE TABLE IF NOT EXISTS public.doctor
 (
-    "DID" smallint NOT NULL,
-    forename character varying(255) NOT NULL,
-    lastname character varying(255) NOT NULL,
+    "DID" smallint NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 32767 CACHE 1 ),
+    forename character varying(255) COLLATE pg_catalog."default" NOT NULL,
+    lastname character varying(255) COLLATE pg_catalog."default" NOT NULL,
     date_of_birth date NOT NULL,
-    address character varying(255) NOT NULL,
-    phone_number character varying(25) NOT NULL,
-    PRIMARY KEY ("DID")
+    address character varying(255) COLLATE pg_catalog."default" NOT NULL,
+    phone_number character varying(25) COLLATE pg_catalog."default" NOT NULL,
+    department character varying COLLATE pg_catalog."default",
+    assigned_patients integer,
+    CONSTRAINT doctor_pkey PRIMARY KEY ("DID")
 );
 
-CREATE TABLE IF NOT EXISTS public.room
+CREATE TABLE IF NOT EXISTS public.medicine
 (
-    room_number character varying(255) NOT NULL,
-    capacity integer,
-    status character varying
+    "NDC" character varying(255) COLLATE pg_catalog."default" NOT NULL,
+    name character varying(255) COLLATE pg_catalog."default" NOT NULL,
+    count integer NOT NULL,
+    CONSTRAINT medicine_pkey PRIMARY KEY ("NDC")
 );
 
 CREATE TABLE IF NOT EXISTS public.nurse
 (
-    "NID" smallint NOT NULL,
-    forename character varying(255) NOT NULL,
-    lastname character varying(255) NOT NULL,
-    address character varying(255) NOT NULL,
-    phone_number character varying(25) NOT NULL,
-    PRIMARY KEY ("NID")
+    "NID" smallint NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 32767 CACHE 1 ),
+    forename character varying(255) COLLATE pg_catalog."default" NOT NULL,
+    lastname character varying(255) COLLATE pg_catalog."default" NOT NULL,
+    address character varying(255) COLLATE pg_catalog."default" NOT NULL,
+    phone_number character varying(25) COLLATE pg_catalog."default" NOT NULL,
+    date_of_birth date,
+    CONSTRAINT nurse_pkey PRIMARY KEY ("NID")
+);
+
+CREATE TABLE IF NOT EXISTS public.patient
+(
+    "PID" smallint NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 32767 CACHE 1 ),
+    forename character varying(255) COLLATE pg_catalog."default" NOT NULL,
+    lastname character varying(255) COLLATE pg_catalog."default" NOT NULL,
+    age_sex character varying(10) COLLATE pg_catalog."default" NOT NULL,
+    date_of_birth date NOT NULL,
+    address character varying(255) COLLATE pg_catalog."default",
+    date_admitted date NOT NULL,
+    date_discharged date,
+    phone_number character varying(25) COLLATE pg_catalog."default",
+    assigned_doc integer,
+    CONSTRAINT patient_pkey PRIMARY KEY ("PID")
 );
 
 CREATE TABLE IF NOT EXISTS public.record
 (
     "RECID" smallint NOT NULL,
-    PRIMARY KEY ("RECID")
+    CONSTRAINT record_pkey PRIMARY KEY ("RECID")
 );
 
-CREATE TABLE IF NOT EXISTS public.department
+CREATE TABLE IF NOT EXISTS public.room
 (
-    dep_code character varying(10) NOT NULL,
-    dep_name character varying(255) NOT NULL,
-    PRIMARY KEY (dep_code)
+    room_number character varying(255) COLLATE pg_catalog."default" NOT NULL,
+    capacity integer,
+    free_of_it character varying COLLATE pg_catalog."default",
+    CONSTRAINT room_pkey PRIMARY KEY (room_number)
 );
+
+ALTER TABLE IF EXISTS public.doctor
+    ADD CONSTRAINT department FOREIGN KEY (department)
+    REFERENCES public.department (dep_code) MATCH SIMPLE
+    ON UPDATE NO ACTION
+    ON DELETE NO ACTION
+    NOT VALID;
+
+
+ALTER TABLE IF EXISTS public.patient
+    ADD CONSTRAINT did FOREIGN KEY (assigned_doc)
+    REFERENCES public.doctor ("DID") MATCH SIMPLE
+    ON UPDATE NO ACTION
+    ON DELETE NO ACTION
+    NOT VALID;
+
 END;

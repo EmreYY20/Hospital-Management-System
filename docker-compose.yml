@@ -11,8 +11,8 @@ services:
             POSTGRES_PASSWORD: 2002
             POSTGRES_DB: HMS
         volumes:
-            - ./sql/schema.sql:/docker-entrypoint-initdb.d/1-schema.sql
-            - ./sql/data.sql:/docker-entrypoint-initdb.d/2-data.sql
+            - ./sql/schema.sql:/docker-entrypoint-initdb.d/schema.sql
+            - ./sql/data.sql:/docker-entrypoint-initdb.d/data.sql
             - ./sql/foreign_keys_and_constraints.sql:/docker-entrypoint-initdb.d/3-foreign_keys_and_constraints.sql
 
     adminer:
