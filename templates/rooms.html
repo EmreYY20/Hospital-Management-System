@@ -7,9 +7,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <meta name="google-site-verification" content="kCT200-J0rfczENRkJQdYCqsDKkUo3Hvr3KZic_otwU" />
 
-    <meta name="description" content="Sb Admin dashboard migrated to Python by AppSeed" />
-    <meta name="author" content="startbootstrap & AppSeed" />
-    
     <title>
         Rooms
     </title>
@@ -18,14 +15,10 @@
     <link href="https://appsrv1-147a1.kxcdn.com/sb-admin/css/styles.min.css" rel="stylesheet" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js" crossorigin="anonymous"></script>
 
-    <!-- Specific Page CSS goes HERE  -->
-    
-
 </head>
 <body class="sb-nav-fixed">
         
-    
-<nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
+        <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
             <!-- Navbar Brand-->
             <a class="navbar-brand ps-3" href="/dashboard">Hospital Management</a>
             <!-- Sidebar Toggle-->
@@ -55,54 +48,57 @@
         <div id="layoutSidenav_nav">
 
             
-<nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
-    <div class="sb-sidenav-menu">
-        <div class="nav">
+    <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
+        <div class="sb-sidenav-menu">
+            <div class="nav">
 
 
-            <a class="nav-link   " href="/dashboard">
-                <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt fa-lg"></i></div>
-                Dashboard
-            </a>
+                <a class="nav-link   " href="/dashboard">
+                    <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt fa-lg"></i></div>
+                    Dashboard
+                </a>
 
-            <a class="nav-link " href="/patients">
-                <div class="sb-nav-link-icon"><i class="fas fa-user fa-lg"></i></div>
-                &nbsp;Patients
-            </a>
-            
-            <a class="nav-link  collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
-                <div class="sb-nav-link-icon"><i class="fas fa-users fa-lg"></i></div>
-                Employee
-                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-            </a>
-            <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
-                <nav class="sb-sidenav-menu-nested nav">
-                    <a class="nav-link" href="/doctors">Doctors</a>
-                    <a class="nav-link" href="/nurse">Nurse</a>
-                </nav>
+                <a class="nav-link " href="/patients">
+                    <div class="sb-nav-link-icon"><i class="fas fa-user fa-lg"></i></div>
+                    &nbsp;Patients
+                </a>
+                
+                <a class="nav-link  collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
+                    <div class="sb-nav-link-icon"><i class="fas fa-users fa-lg"></i></div>
+                    Employee
+                    <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                </a>
+                <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
+                    <nav class="sb-sidenav-menu-nested nav">
+                        <a class="nav-link" href="/doctors">Doctors</a>
+                        <a class="nav-link" href="/nurse">Nurse</a>
+                    </nav>
+                </div>
+
+                <a class="nav-link active " href="/rooms">
+                    <div class="sb-nav-link-icon"><i class="fas fa-bed fa-lg"></i></div>
+                    Rooms
+                </a>
+                <a class="nav-link " href="/surgeries">
+                    <div class="sb-nav-link-icon"><i class="fas fa-star-of-life fa-lg"></i></div>
+                    &nbsp;Surgeries
+                </a>
+                <a class="nav-link " href="/medicine">
+                    <div class="sb-nav-link-icon"><i class="fas fa-capsules fa-lg"></i></div>
+                    Medicine
+                </a>
+
+                <a class="nav-link " href="/departments">
+                    <div class="sb-nav-link-icon"><i class="fas fa-hotel fa-lg"></i></div>
+                    Departments
+                </a>
             </div>
-
-            <a class="nav-link active " href="/rooms">
-                <div class="sb-nav-link-icon"><i class="fas fa-bed fa-lg"></i></div>
-                Rooms
-            </a>
-
-            <a class="nav-link " href="/medicine">
-                <div class="sb-nav-link-icon"><i class="fas fa-capsules fa-lg"></i></div>
-                Medicine
-            </a>
-
-            <a class="nav-link " href="/departments">
-                <div class="sb-nav-link-icon"><i class="fas fa-hotel fa-lg"></i></div>
-                Departments
-            </a>
         </div>
-    </div>
-    <div class="sb-sidenav-footer">
-        <div class="small">Logged in as:</div>
-        admin
-    </div>
-</nav>
+        <div class="sb-sidenav-footer">
+            <div class="small">Logged in as:</div>
+            admin
+        </div>
+    </nav>
             
         </div>
         <div id="layoutSidenav_content">
@@ -113,38 +109,37 @@
         <div class="container-fluid px-4">
             <h1 class="mt-4">Rooms</h1>
             <button type="button" class="btn btn-success float-end" data-bs-toggle="modal" data-bs-target="#createModal">Add Room</button>
-<div class="modal fade" id="createModal" tabindex="-1" aria-labelledby="createModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="createModalLabel">Add Room</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <!-- Your form content here for creating a new Room -->
-                <form action="/add_room" method="POST">
-                    <!-- Form fields for creating a new doctor -->
-                    <div class="mb-3">
-                        <label for="room_number" class="form-label">Room Number</label>
-                        <input type="text" class="form-control" id="room_number" name="room_number" placeholder="Enter room number" required>
+        <div class="modal fade" id="createModal" tabindex="-1" aria-labelledby="createModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="createModalLabel">Add Room</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <div class="mb-3">
-                        <label for="capacity" class="form-label">Capacity</label>
-                        <input type="text" class="form-control" id="capacity" name="capacity" placeholder="Enter capacity" required>
+                    <div class="modal-body">
+                        <!-- Your form content here for creating a new Room -->
+                        <form action="/add_room" method="POST">
+                            <div class="mb-3">
+                                <label for="room_number" class="form-label">Room Number</label>
+                                <input type="text" class="form-control" id="room_number" name="room_number" placeholder="Enter room number" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="capacity" class="form-label">Capacity</label>
+                                <input type="text" class="form-control" id="capacity" name="capacity" placeholder="Enter capacity" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="free_of_it" class="form-label">Free beds</label>
+                                <input type="text" class="form-control" id="free_of_it" name="free_of_it" placeholder="Enter amount of free beds" required>
+                            </div>
+                            
+                
+                            
+                            <button type="submit" class="btn btn-primary float-start">Add</button>
+                        </form>
                     </div>
-                    <div class="mb-3">
-                        <label for="free_of_it" class="form-label">Free beds</label>
-                        <input type="text" class="form-control" id="free_of_it" name="free_of_it" placeholder="Enter amount of free beds" required>
-                    </div>
-                    
-        
-                    
-                    <button type="submit" class="btn btn-primary float-start">Add</button>
-                </form>
+                </div>
             </div>
         </div>
-    </div>
-</div>
 
             <ol class="breadcrumb mb-4">
                 <li class="breadcrumb-item"><a href="/dashboard">Dashboard</a></li>
@@ -158,7 +153,6 @@
                     <table id="datatablesSimple">
                         <thead>
                             <tr>
-                                <th>RID</th>
                                 <th>Room Number</th>
                                 <th>Capacity</th>
                                 <th>Free beds</th>
@@ -167,7 +161,6 @@
                         </thead>
                         <tfoot>
                             <tr>
-                                <th>RID</th>
                                 <th>Room Number</th>
                                 <th>Capacity</th>
                                 <th>Free beds</th>
@@ -178,31 +171,27 @@
                         <tbody>
                             {% for room in rooms %}
                             <tr>
-                                <td>{{ room.rid }}</td>
                                 <td>{{ room.room_number }}</td>
                                 <td>{{ room.capacity }}</td>
                                 <td>{{ room.free_of_it }}</td>
                                 <td>
                                     
-                                    <a href="/rooms/{{ room.rid }}/edit" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editModal{{ room.rid }}">
+                                    <a href="/rooms/{{ room.room_number }}/edit" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editModal{{ room.room_number }}">
                                         Edit
                                     </a>
 
                                     <!-- Edit Doctor Modal -->
-                                    <div class="modal fade" id="editModal{{ room.rid }}" tabindex="-1" aria-labelledby="editModalLabel{{ room.rid }}" aria-hidden="true">
+                                    <div class="modal fade" id="editModal{{ room.room_number }}" tabindex="-1" aria-labelledby="editModalLabel{{ room.room_number }}" aria-hidden="true">
                                         <div class="modal-dialog">
                                             <div class="modal-content">
                                                 <div class="modal-header">
-                                                    <h5 class="modal-title" id="editModalLabel{{ room.rid }}">Edit Room</h5>
+                                                    <h5 class="modal-title" id="editModalLabel{{ room.room_number }}">Edit Room</h5>
                                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                 </div>
                                                 <div class="modal-body">
                                                     <!-- Your form content here -->
-                                                    <form action="/rooms/{{ room.rid }}/edit" method="POST">
-                                                        <div class="mb-3">
-                                                            <label for="room_number" class="form-label">Room Number</label>
-                                                            <input type="text" class="form-control" id="room_number" name="room_number" value="{{ room.room_number }}">
-                                                        </div>
+                                                    <form action="/rooms/{{ room.room_number }}/edit" method="POST">
+                                                        
                                                         <div class="mb-3">
                                                             <label for="capacity" class="form-label">Capacity</label>
                                                             <input type="text" class="form-control" id="capacity" name="capacity" value="{{ room.capacity }}">
@@ -220,7 +209,7 @@
                                         </div>
                                     </div>
 
-                                    <a href="/rooms/{{ room.rid }}/delete" class="btn btn-danger delete-btn">Delete</a>
+                                    <a href="/rooms/{{ room.room_number }}/delete" class="btn btn-danger delete-btn">Delete</a>
                                 </td>
                             </tr>
                             {% endfor %}

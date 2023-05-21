@@ -56,13 +56,11 @@ class Medicine(db.Model):
     NDC = db.Column('NDC', db.String(255), primary_key = True)
     name = db.Column(db.String(255))
     count = db.Column(db.Integer)
-    mid = db.Column(db.Integer)
  
-    def __init__(self, NDC, name, count, mid):
+    def __init__(self, NDC, name, count):
         self.NDC = NDC
         self.name = name
         self.count = count
-        self.mid = mid
 
 class Doctors(db.Model):
     __tablename__ = 'doctor'
@@ -89,14 +87,12 @@ class Room(db.Model):
     room_number = db.Column('room_number', db.String(255), primary_key = True)
     capacity = db.Column(db.Integer)
     free_of_it = db.Column(db.Integer)
-    rid = db.Column(db.Integer)
  
-    def __init__(self, room_number, capacity, free_of_it, rid):
+    def __init__(self, room_number, capacity, free_of_it):
         self.room_number = room_number
-        self.cap = capacity
+        self.capacity = capacity
         self.free_of_it = free_of_it
-        self.rid = rid
-    
+ 
 class Nurse(db.Model):
     __tablename__ = 'nurse'
     nid = db.Column('NID', db.Integer, primary_key = True)
@@ -263,7 +259,6 @@ def edit_medicine(mid):
 
     if request.method == 'POST':
         # Update the patient's information with the submitted form data
-        med.NDC = request.form['NDC']
         med.name = request.form['name']
         med.count = request.form['count']
 
@@ -273,7 +268,7 @@ def edit_medicine(mid):
         # Redirect the user back to the patients listing page or a specific route
         return redirect("/medicine")
 
-@app.route('/add_medicine', methods=['POST'])
+@app.route('/add_medicine', methods=["GET",'POST'])
 def add_medicine():
     NDC = request.form['NDC']
     name = request.form['name']
@@ -405,23 +400,21 @@ def rooms():
     rooms = Room.query.all()
     return render_template('rooms.html', rooms=rooms)
 
-@app.route('/rooms/<rid>/delete', methods=["GET", 'POST'])
-def delete_room(rid):
-    rid = Room.query.get(rid)
-    if rid:
-        db.session.delete(rid)
+@app.route('/rooms/<room_number>/delete', methods=["GET", 'POST'])
+def delete_room(room_number):
+    room_number = Room.query.get(room_number)
+    if room_number:
+        db.session.delete(room_number)
         db.session.commit()
-        flash('Room deleted successfully.')
     return redirect("/rooms")
 
-@app.route('/rooms/<rid>/edit', methods=['GET', 'POST'])
-def edit_rooms(rid):
-    rooms = Room.query.get(rid)
+@app.route('/rooms/<room_number>/edit', methods=['GET', 'POST'])
+def edit_rooms(room_number):
+    rooms = Room.query.get(room_number)
 
     if request.method == 'POST':
         # Update the patient's information with the submitted form data
-        rooms.room_number = request.form['room_number']
-        rooms.capactiy = request.form['capactiy']
+        rooms.capactiy = request.form['capacity']
         rooms.free_of_it = request.form['free_of_it']
 
         # Save the changes to the database
@@ -442,6 +435,11 @@ def add_room():
 
     return redirect('/rooms')
 
+
+# Surgery
+@app.route('/surgeries')
+def surgery():
+    return render_template('surgeries.html')
 
 ###==Doctor==###
 """

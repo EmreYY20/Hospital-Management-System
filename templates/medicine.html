@@ -11,7 +11,7 @@
     <meta name="author" content="startbootstrap & AppSeed" />
     
     <title>
-        Medicine
+        Medicine - Inventory
     </title>
 
     <link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet" />
@@ -86,7 +86,10 @@
                 <div class="sb-nav-link-icon"><i class="fas fa-bed fa-lg"></i></div>
                 Rooms
             </a>
-
+            <a class="nav-link " href="/surgeries">
+                <div class="sb-nav-link-icon"><i class="fas fa-star-of-life fa-lg"></i></div>
+                &nbsp;Surgeries
+            </a>
             <a class="nav-link active" href="/medicine">
                 <div class="sb-nav-link-icon"><i class="fas fa-capsules fa-lg"></i></div>
                 Medicine
@@ -111,7 +114,7 @@
 
     <main>
         <div class="container-fluid px-4">
-            <h1 class="mt-4">Medicine</h1>
+            <h1 class="mt-4">Medicine - Inventory</h1>
             <button type="button" class="btn btn-success float-end" data-bs-toggle="modal" data-bs-target="#createModal">Add Medicine</button>
             <div class="modal fade" id="createModal" tabindex="-1" aria-labelledby="createModalLabel" aria-hidden="true">
                 <div class="modal-dialog">
@@ -159,7 +162,6 @@
                     <table id="datatablesSimple">
                         <thead>
                             <tr>
-                                <th>MID</th>
                                 <th>NDC</th>
                                 <th>Drug Name</th>
                                 <th>Count</th>
@@ -168,7 +170,6 @@
                         </thead>
                         <tfoot>
                             <tr>
-                                <th>MID</th>
                                 <th>NDC</th>
                                 <th>Drug Name</th>
                                 <th>Count</th>
@@ -178,29 +179,32 @@
                         <tbody>
                             {% for med in med %}
                             <tr>
-                                <td>{{ med.mid }}</td>
                                 <td>{{ med.NDC }}</td>
                                 <td>{{ med.name }}</td>
                                 <td>{{ med.count }}</td>
                                 <td>
                                     
-                                    <a href="/medicine/{{ med.mid }}/edit" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editModal{{ med.mid }}">
+                                    <a href="/medicine/{{ med.NDC }}/edit" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editModal{{ med.NDC }}">
                                         Edit
                                     </a>
                                     <!-- Edit medicine Modal -->
-                                    <div class="modal fade" id="editModal{{ med.mid }}" tabindex="-1" aria-labelledby="editModalLabel{{ med.mid }}" aria-hidden="true">
+                                    <div class="modal fade" id="editModal{{ med.NDC }}" tabindex="-1" aria-labelledby="editModalLabel{{ med.NDC }}" aria-hidden="true">
                                         <div class="modal-dialog">
                                             <div class="modal-content">
                                                 <div class="modal-header">
-                                                    <h5 class="modal-title" id="editModalLabel{{ med.mid }}">Edit Medicine</h5>
+                                                    <h5 class="modal-title" id="editModalLabel{{ med.NDC }}">Edit Medicine</h5>
                                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                 </div>
                                                 <div class="modal-body">
                                                     <!-- Your form content here -->
-                                                    <form action="/medicine/{{ med.mid }}/edit" method="POST">
+                                                    <form action="/medicine/{{ med.NDC }}/edit" method="POST">
                                                         <div class="mb-3">
-                                                            <label for="NDC" class="form-label">NDC</label>
-                                                            <input type="text" class="form-control" id="NDC" name="NDC" value="{{ med.NDC }}">
+                                                            <label for="name" class="form-label">Drug name</label>
+                                                            <input type="text" class="form-control" id="name" name="name" value="{{ med.name }}">
+                                                        </div>
+                                                        <div class="mb-3">
+                                                            <label for="count" class="form-label">Count</label>
+                                                            <input type="text" class="form-control" id="count" name="count" value="{{ med.count }}">
                                                         </div>
                                                         
                                                         <!-- Add additional form fields or content here -->
@@ -211,7 +215,7 @@
                                         </div>
                                     </div>
                                     
-                                    <a href="/medicine/{{ med.mid }}/delete" class="btn btn-danger delete-btn">Delete</a>
+                                    <a href="/medicine/{{ med.NDC }}/delete" class="btn btn-danger delete-btn">Delete</a>
                                     
                                 </td>
                             </tr>

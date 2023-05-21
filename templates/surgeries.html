@@ -11,7 +11,7 @@
     <meta name="author" content="startbootstrap & AppSeed" />
     
     <title>
-        Nurse
+        Surgeries
     </title>
 
     <link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet" />
@@ -70,7 +70,7 @@
                 &nbsp;Patients
             </a>
             
-            <a class="nav-link active collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
+            <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
                 <div class="sb-nav-link-icon"><i class="fas fa-users fa-lg"></i></div>
                 Employee
                 <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
@@ -86,7 +86,7 @@
                 <div class="sb-nav-link-icon"><i class="fas fa-bed fa-lg"></i></div>
                 Rooms
             </a>
-            <a class="nav-link " href="/surgeries">
+            <a class="nav-link active " href="/surgeries">
                 <div class="sb-nav-link-icon"><i class="fas fa-star-of-life fa-lg"></i></div>
                 &nbsp;Surgeries
             </a>
@@ -114,130 +114,99 @@
 
     <main>
         <div class="container-fluid px-4">
-            <h1 class="mt-4">Nurse</h1>
-            <button type="button" class="btn btn-success float-end" data-bs-toggle="modal" data-bs-target="#createModal">Add Nurse</button>
-<div class="modal fade" id="createModal" tabindex="-1" aria-labelledby="createModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="createModalLabel">Add Nurse</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            <h1 class="mt-4">Surgeries</h1>
+            <button type="button" class="btn btn-success float-end" data-bs-toggle="modal" data-bs-target="#createModal">Add Medicine</button>
+            <div class="modal fade" id="createModal" tabindex="-1" aria-labelledby="createModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="createModalLabel">Add Medicine</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <!-- Your form content here for creating a new Medicine -->
+                            <form action="/add_medicine" method="POST">
+                                <!-- Form fields for creating a new Medicine -->
+                                <div class="mb-3">
+                                    <label for="NDC" class="form-label">NDC</label>
+                                    <input type="text" class="form-control" id="NDC" name="NDC" placeholder="Enter NDC" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="name" class="form-label">Name</label>
+                                    <input type="text" class="form-control" id="name" name="name" placeholder="Enter drug name" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="count" class="form-label">Count</label>
+                                    <input type="text" class="form-control" id="count" name="count" placeholder="Enter amount" required>
+                                </div>
+                                
+                            <button type="submit" class="btn btn-primary float-start">Add NDC</button>
+                            </form>
+                        </div>
+
+
+                    </div>
+                </div>
             </div>
-            <div class="modal-body">
-                <!-- Your form content here for creating a new Nurse -->
-                <form action="/add_nurse" method="POST">
-                    <!-- Form fields for creating a new doctor -->
-                    <div class="mb-3">
-                        <label for="forename" class="form-label">Forename</label>
-                        <input type="text" class="form-control" id="forename" name="forename" placeholder="Enter forename name" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="lastname" class="form-label">Lastname</label>
-                        <input type="text" class="form-control" id="lastname" name="lastname" placeholder="Enter last name" required>
-                    </div>
-                    
-                    <div class="mb-3">
-                        <label for="date_of_birth" class="form-label">Date of Birth</label>
-                        <input type="date" class="form-control" id="date_of_birth" name="date_of_birth" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="address" class="form-label">Address</label>
-                        <textarea class="form-control" id="address" name="address" placeholder="Enter address" required></textarea>
-                    </div>
-                    <div class="mb-3">
-                        <label for="phone_number" class="form-label">Phone Number</label>
-                        <input type="tel" class="form-control" id="phone_number" name="phone_number" placeholder="Enter phone number" required>
-                    </div>
-        
-                    
-                    <button type="submit" class="btn btn-primary float-start">Add</button>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
 
             <ol class="breadcrumb mb-4">
                 <li class="breadcrumb-item"><a href="/dashboard">Dashboard</a></li>
-                <li class="breadcrumb-item active">Employee</li>
-                <li class="breadcrumb-item active">Nurse</li>
-
+                <li class="breadcrumb-item active">Surgeries</li>
+                
+                
             </ol>
-
+            
             <div class="card mb-4">
-
+                
                 <div class="card-body">
                     <table id="datatablesSimple">
                         <thead>
                             <tr>
-                                <th>NID</th>
-                                <th>Fname</th>
-                                <th>Lname</th>
-                                <th>Date of birth</th>
-                                <th>Address</th>
-                                <th>Phone Number</th>
+                                <th>NDC</th>
+                                <th>Drug Name</th>
+                                <th>Count</th>
                                 <th>Actions</th>
                             </tr>
                         </thead>
                         <tfoot>
                             <tr>
-                                <th>NID</th>
-                                <th>Fname</th>
-                                <th>Lname</th>
-                                <th>Date of birth</th>
-                                <th>Address</th>
-                                <th>Phone Number</th>
+                                <th>NDC</th>
+                                <th>Drug Name</th>
+                                <th>Count</th>
                                 <th>Actions</th>
-
                             </tr>
                         </tfoot>
                         <tbody>
-                            {% for nurse in nurse %}
+                            {% for med in med %}
                             <tr>
-                                <td>{{ nurse.nid }}</td>
-                                <td>{{ nurse.forename }}</td>
-                                <td>{{ nurse.lastname }}</td>
-                                <td>{{ nurse.date_of_birth }}</td>
-                                <td>{{ nurse.address }}</td>
-                                <td>{{ nurse.phone_number }}</td>
+                                <td>{{ med.NDC }}</td>
+                                <td>{{ med.name }}</td>
+                                <td>{{ med.count }}</td>
                                 <td>
                                     
-                                    <a href="/nurse/{{ nurse.nid }}/edit" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editModal{{ nurse.nid }}">
+                                    <a href="/medicine/{{ med.NDC }}/edit" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editModal{{ med.NDC }}">
                                         Edit
                                     </a>
-
-                                    <!-- Edit Doctor Modal -->
-                                    <div class="modal fade" id="editModal{{ nurse.nid }}" tabindex="-1" aria-labelledby="editModalLabel{{ nurse.nid }}" aria-hidden="true">
+                                    <!-- Edit medicine Modal -->
+                                    <div class="modal fade" id="editModal{{ med.NDC }}" tabindex="-1" aria-labelledby="editModalLabel{{ med.NDC }}" aria-hidden="true">
                                         <div class="modal-dialog">
                                             <div class="modal-content">
                                                 <div class="modal-header">
-                                                    <h5 class="modal-title" id="editModalLabel{{ nurse.nid }}">Edit Nurse</h5>
+                                                    <h5 class="modal-title" id="editModalLabel{{ med.NDC }}">Edit Medicine</h5>
                                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                 </div>
                                                 <div class="modal-body">
                                                     <!-- Your form content here -->
-                                                    <form action="/nurse/{{ nurse.nid }}/edit" method="POST">
+                                                    <form action="/medicine/{{ med.NDC }}/edit" method="POST">
                                                         <div class="mb-3">
-                                                            <label for="forename" class="form-label">Forename</label>
-                                                            <input type="text" class="form-control" id="forename" name="forename" value="{{ nurse.forename }}">
+                                                            <label for="name" class="form-label">Drug name</label>
+                                                            <input type="text" class="form-control" id="name" name="name" value="{{ med.name }}">
                                                         </div>
                                                         <div class="mb-3">
-                                                            <label for="lastname" class="form-label">Lastname</label>
-                                                            <input type="text" class="form-control" id="lastname" name="lastname" value="{{ nurse.lastname }}">
+                                                            <label for="count" class="form-label">Count</label>
+                                                            <input type="text" class="form-control" id="count" name="count" value="{{ med.count }}">
                                                         </div>
-                                                        <div class="mb-3">
-                                                            <label for="dob" class="form-label">Date of Birth</label>
-                                                            <input type="text" class="form-control" id="dob" name="dob" value="{{ nurse.date_of_birth }}">
-                                                        </div>
-                                                        <div class="mb-3">
-                                                            <label for="address" class="form-label">Address</label>
-                                                            <input type="text" class="form-control" id="address" name="address" value="{{ nurse.address }}">
-                                                        </div>
-                                                        <div class="mb-3">
-                                                            <label for="phone" class="form-label">Phone Number</label>
-                                                            <input type="text" class="form-control" id="phone" name="phone" value="{{ nurse.phone_number }}">
-                                                        </div>
-                                           
+                                                        
                                                         <!-- Add additional form fields or content here -->
                                                         <button type="submit" class="btn btn-primary">Save Changes</button>
                                                     </form>
@@ -245,8 +214,9 @@
                                             </div>
                                         </div>
                                     </div>
-
-                                    <a href="/nurse/{{ nurse.nid }}/delete" class="btn btn-danger delete-btn">Delete</a>
+                                    
+                                    <a href="/medicine/{{ med.NDC }}/delete" class="btn btn-danger delete-btn">Delete</a>
+                                    
                                 </td>
                             </tr>
                             {% endfor %}
