@@ -22,4 +22,12 @@ services:
         depends_on:
             - "database"
 
+    
+    flask_app:
+        build: .
+        ports:
+            - '1234:5050'
+        depends_on:
+            - "database"
+
 
