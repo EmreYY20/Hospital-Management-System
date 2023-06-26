@@ -1,21 +1,27 @@
-FROM ubuntu:latest
+# Use an official Python runtime as the base image
+FROM python:3.8-slim-buster
 
-# Set the working directory
+# Set the working directory in the container
 WORKDIR /app
 
-# Update packages and install dependencies
-RUN apt-get update && apt-get install -y \
-    python3 \
-    python3-pip
+# Copy the requirements file to the container
+COPY requirements.txt .
 
-# Copy the Flask app files to the container
-COPY . /app
+# Install the Python dependencies
+RUN pip install --no-cache-dir -r requirements.txt
 
-# Install Python dependencies
-RUN pip3 install -r requirements.txt
+# Copy the Flask app code to the container
+COPY . .
 
-# Expose the Flask app port
+# Expose the port that the Flask app will run on
 EXPOSE 5000
 
-# Define the command to run the Flask app
-CMD ["python3", "-m", "flask", "run", "--host=0.0.0.0"]
+# Set the environment variables for the PostgreSQL connection
+ENV POSTGRES_HOST=postgres-HMS
+ENV POSTGRES_PORT=5432
+ENV POSTGRES_DB=HMS
+ENV POSTGRES_USER=postgres
+ENV POSTGRES_PASSWORD=1234
+
+# Run the Flask app
+CMD ["python", "app.py"]

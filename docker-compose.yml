@@ -1,10 +1,11 @@
-version: '3.8'
+version: '3.3'
 
 services:
   database:
-    image: 'postgres:12.3'
+    image: postgres
     ports:
-      - '5432:5432'
+      - 5432:5432
+    restart: always
     container_name: postgres-HMS
     environment:
       - POSTGRES_USER=postgres
@@ -14,11 +15,12 @@ services:
       - ./sql/schema.sql:/docker-entrypoint-initdb.d/1-schema.sql
       - ./sql/data.sql:/docker-entrypoint-initdb.d/2-data.sql
 
+
   adminer:
     image: adminer
     restart: always
     ports:
-      - 1234:8080
+      - 8080:8080
     depends_on:
       - database
 

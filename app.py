@@ -6,8 +6,8 @@ import os
 app = Flask (__name__)
 
 # Config 
-app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql://postgres:1234@database:5432/HMS"
-app.config['SECRET_KEY'] = 'thisissecret'
+app.config['SQLALCHEMY_DATABASE_URI']="postgresql://postgres:1234@database:5432/HMS"
+app.config['SECRET_KEY']='thisissecret'
 
 db = SQLAlchemy(app)
 
@@ -120,7 +120,7 @@ def login():
 This part is only for the admin
 """
 # Dashboard 
-@app.route('/')
+@app.route('/dashboard')
 def index():
     return render_template('dashboard.html')
 
@@ -453,4 +453,4 @@ def doctor():
 
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0')
+    app.run(host='0.0.0.0', port=5000 , debug=True)
