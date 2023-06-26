@@ -1,11 +1,21 @@
-FROM python:3.8
+FROM ubuntu:latest
 
+# Set the working directory
 WORKDIR /app
 
-COPY requirements.txt .
+# Update packages and install dependencies
+RUN apt-get update && apt-get install -y \
+    python3 \
+    python3-pip
 
-RUN pip install --no-cache-dir -r requirements.txt
+# Copy the Flask app files to the container
+COPY . /app
 
-COPY . .
+# Install Python dependencies
+RUN pip3 install -r requirements.txt
 
-CMD ["python", "app.py"]
+# Expose the Flask app port
+EXPOSE 5000
+
+# Define the command to run the Flask app
+CMD ["python3", "-m", "flask", "run", "--host=0.0.0.0"]

@@ -6,7 +6,7 @@ import os
 app = Flask (__name__)
 
 # Config 
-app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql://postgres:2002@localhost:5432/HMS"
+app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql://postgres:1234@database:5432/HMS"
 app.config['SECRET_KEY'] = 'thisissecret'
 
 db = SQLAlchemy(app)
@@ -110,16 +110,17 @@ class Nurse(db.Model):
         self.phone_number = phone_number
         
 ####===Routing===####
+"""
 @app.route('/')
 def login():
-    return render_template('login.html')
+    return render_template('login.html')"""
 
 ##==Admin==##
 """
 This part is only for the admin
 """
 # Dashboard 
-@app.route('/dashboard')
+@app.route('/')
 def index():
     return render_template('dashboard.html')
 
@@ -452,4 +453,4 @@ def doctor():
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host='0.0.0.0')
