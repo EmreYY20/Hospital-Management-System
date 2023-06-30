@@ -112,14 +112,15 @@ class Nurse(db.Model):
 """
 @app.route('/')
 def login():
-    return render_template('login.html')"""
+    return render_template('login.html')
+"""
 
 ##==Admin==##
 """
 This part is only for the admin
 """
 # Dashboard 
-@app.route('/dashboard')
+@app.route('/')
 def index():
     return render_template('dashboard.html')
 
