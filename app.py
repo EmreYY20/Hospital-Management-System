@@ -1,6 +1,5 @@
-from flask import Flask, url_for, render_template, session, redirect, request, flash
+from flask import Flask, render_template, session, redirect, request, flash
 from flask_sqlalchemy import SQLAlchemy
-import os
 
 # Initialize app
 app = Flask (__name__)
@@ -14,7 +13,7 @@ db = SQLAlchemy(app)
 ####===Models===####
 class Patients(db.Model):
     __tablename__ = 'patient'
-    pid = db.Column('PID', db.Integer, primary_key = True)
+    pid = db.Column('pid', db.Integer, primary_key = True)
     forename = db.Column(db.String(255))
     lastname = db.Column(db.String(255))
     age_sex = db.Column(db.String(255))
@@ -53,7 +52,7 @@ class Department(db.Model):
 
 class Medicine(db.Model):
     __tablename__ = 'medicine'
-    NDC = db.Column('NDC', db.String(255), primary_key = True)
+    NDC = db.Column('ndc', db.String(255), primary_key = True)
     name = db.Column(db.String(255))
     count = db.Column(db.Integer)
  
@@ -64,7 +63,7 @@ class Medicine(db.Model):
 
 class Doctors(db.Model):
     __tablename__ = 'doctor'
-    did = db.Column('DID', db.Integer, primary_key = True)
+    did = db.Column('did', db.Integer, primary_key = True)
     forename = db.Column(db.String(255))
     lastname = db.Column(db.String(255))
     date_of_birth = db.Column(db.String(255))
@@ -95,7 +94,7 @@ class Room(db.Model):
  
 class Nurse(db.Model):
     __tablename__ = 'nurse'
-    nid = db.Column('NID', db.Integer, primary_key = True)
+    nid = db.Column('nid', db.Integer, primary_key = True)
     forename = db.Column(db.String(255))
     lastname = db.Column(db.String(255))
     date_of_birth = db.Column(db.String(255))

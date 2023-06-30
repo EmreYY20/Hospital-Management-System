@@ -1,10 +1,21 @@
 version: '3.3'
 
 services:
+  flask_app:
+      build:
+        context: .
+        dockerfile: Dockerfile
+      ports:
+        - "5000:5000"
+      environment:
+        - FLASK_RUN_HOST=0.0.0.0
+      depends_on:
+        - database
+
   database:
     image: postgres
     ports:
-      - 5432:5432
+      - "5432:5432"
     restart: always
     container_name: postgres-HMS
     environment:
@@ -24,13 +35,4 @@ services:
     depends_on:
       - database
 
-  flask_app:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    ports:
-      - '5000:5000'
-    environment:
-      - FLASK_RUN_HOST=0.0.0.0
-    depends_on:
-      - database
+  
