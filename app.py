@@ -1,16 +1,19 @@
+# Import libraries
 from flask import Flask, render_template, session, redirect, request, flash
 from flask_sqlalchemy import SQLAlchemy
 
 # Initialize app
 app = Flask (__name__)
 
-# Config 
+# Config the app for DB connection
 app.config['SQLALCHEMY_DATABASE_URI']="postgresql://postgres:1234@database:5432/HMS"
 app.config['SECRET_KEY']='thisissecret'
 
+# Create DB
 db = SQLAlchemy(app)
 
-####===Models===####
+
+####========================Models========================####
 class Patients(db.Model):
     __tablename__ = 'patient'
     pid = db.Column('pid', db.Integer, primary_key = True)
@@ -35,8 +38,6 @@ class Patients(db.Model):
         self.date_discharged = date_discharged
         self.assigned_doc = assigned_doc
  
-    #def __repr__(self):
-    #    return f"{self.dep_code}:{self.dep_name}"
 
 class Department(db.Model):
     __tablename__ = 'department'
@@ -47,8 +48,6 @@ class Department(db.Model):
         self.dep_code = dep_code
         self.dep_name = dep_name
  
-    #def __repr__(self):
-    #    return f"{self.dep_code}:{self.dep_name}"
 
 class Medicine(db.Model):
     __tablename__ = 'medicine'
@@ -60,6 +59,7 @@ class Medicine(db.Model):
         self.NDC = NDC
         self.name = name
         self.count = count
+
 
 class Doctors(db.Model):
     __tablename__ = 'doctor'
@@ -81,6 +81,7 @@ class Doctors(db.Model):
         self.department = department
         self.assigned_patients = assigned_patients
 
+
 class Room(db.Model):
     __tablename__ = 'room'
     room_number = db.Column('room_number', db.String(255), primary_key = True)
@@ -92,6 +93,7 @@ class Room(db.Model):
         self.capacity = capacity
         self.free_of_it = free_of_it
  
+
 class Nurse(db.Model):
     __tablename__ = 'nurse'
     nid = db.Column('nid', db.Integer, primary_key = True)
@@ -107,18 +109,22 @@ class Nurse(db.Model):
         self.date_of_birth = date_of_birth
         self.address = address
         self.phone_number = phone_number
-        
-####===Routing===####
-"""
-@app.route('/')
-def login():
-    return render_template('login.html')
-"""
 
-##==Admin==##
-"""
-This part is only for the admin
-"""
+
+class Surgeries(db.Model):
+    __tablename__ = 'surgeries'
+    sid = db.Column('sid', db.Integer, primary_key = True)
+    surgery_room = db.Column(db.String(255))
+    treating_doc = db.Column(db.Integer)
+    treated_pat = db.Column(db.Integer)
+ 
+    def __init__(self, surgery_room, treating_doc, treated_pat):
+        self.surgery_room = surgery_room
+        self.treating_doc = treating_doc
+        self.treated_pat = treated_pat
+
+
+####========================Flask App - Routing========================####
 # Dashboard 
 @app.route('/')
 def index():
@@ -162,7 +168,6 @@ def edit_patient(pid):
         patient.date_discharged = request.form['discharged']
         patient.phone_number = request.form['phone']
         patient.assigned_doc = request.form['assigned_doc']
-        # Update other fields as necessary
 
         # Save the changes to the database
         db.session.commit()
@@ -184,7 +189,9 @@ def add_patient():
     phone_number = request.form['phone_number']
     assigned_doc = request.form['assigned_doc']
 
-    new_patient = Patients(forename=forename, lastname=lastname, age_sex=age_sex, date_of_birth=date_of_birth, address=address, phone_number=phone_number, date_admitted=date_admitted, date_discharged=date_discharged, assigned_doc=assigned_doc)
+    new_patient = Patients(forename=forename, lastname=lastname, 
+                           age_sex=age_sex, date_of_birth=date_of_birth, address=address, phone_number=phone_number, 
+                           date_admitted=date_admitted, date_discharged=date_discharged, assigned_doc=assigned_doc)
     db.session.add(new_patient)
     db.session.commit()
 
@@ -215,7 +222,6 @@ def edit_department(dep_code):
     if request.method == 'POST':
         dep.dep_code = request.form['dep_code']
         dep.dep_name = request.form['dep_name']
-        # Update other fields as necessary
 
         # Save the changes to the database
         db.session.commit()
@@ -227,8 +233,6 @@ def edit_department(dep_code):
 def add_department():
     dep_code = request.form['dep_code']
     dep_name = request.form['dep_name']
-
-    # Get other patient attributes...
 
     new_dep = Department(dep_code=dep_code, dep_name=dep_name)
     db.session.add(new_dep)
@@ -259,7 +263,7 @@ def edit_medicine(mid):
     med = Medicine.query.get(mid)
 
     if request.method == 'POST':
-        # Update the patient's information with the submitted form data
+        # Update the medicine information with the submitted form data
         med.name = request.form['name']
         med.count = request.form['count']
 
@@ -436,21 +440,49 @@ def add_room():
 
     return redirect('/rooms')
 
-
 # Surgery
+"""
+CRUD Surgery
+"""
 @app.route('/surgeries')
 def surgery():
-    return render_template('surgeries.html')
+    surgeries = Surgeries.query.all()
+    return render_template('surgeries.html', surgeries=surgeries)
 
-###==Doctor==###
-"""
-This part is only for the users logged in as doctor
-"""
-@app.route('/doctor/dashboard')
-def doctor():
-    docs = Doctors.query.all()
-    return render_template('/doctor/dashboard.html')
+@app.route('/surgeries/<room_number>/delete', methods=["GET", 'POST'])
+def delete_room(room_number):
+    room_number = Room.query.get(room_number)
+    if room_number:
+        db.session.delete(room_number)
+        db.session.commit()
+    return redirect("/surgeries")
 
+@app.route('/surgeries/<room_number>/edit', methods=['GET', 'POST'])
+def edit_rooms(room_number):
+    rooms = Room.query.get(room_number)
+
+    if request.method == 'POST':
+        # Update the patient's information with the submitted form data
+        rooms.capactiy = request.form['capacity']
+        rooms.free_of_it = request.form['free_of_it']
+
+        # Save the changes to the database
+        db.session.commit()
+
+        # Redirect the user back to the patients listing page or a specific route
+        return redirect("/surgeries")
+
+@app.route('/add_surgery', methods=['POST'])
+def add_room():
+    room_number = request.form['room_number']
+    capacity = request.form['capacity']
+    free_of_it = request.form['free_of_it']
+
+    new_room = Room(room_number=room_number, capacity=capacity, free_of_it=free_of_it)
+    db.session.add(new_room)
+    db.session.commit()
+
+    return redirect('/surgeries')
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000 , debug=True)

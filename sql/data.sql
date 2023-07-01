@@ -45,3 +45,7 @@ VALUES (1, 'James', 'Brown', '21/M', '2001-07-18', 'Coblitzallee 1-9, 68163 Mann
 INSERT INTO room (room_number, capacity, free_of_it)
 VALUES ('A001', 4, '3'),
        ('A002', 1, '1');
+
+
+INSERT INTO surgeries (SID, surgery_romm, treating_doc, treated_pat)
+VALUES (1, "S001", 1, 1);

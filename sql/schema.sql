@@ -52,18 +52,20 @@ CREATE TABLE IF NOT EXISTS patient
     PRIMARY KEY (PID)
 );
 
-CREATE TABLE IF NOT EXISTS record
-(
-    RECID SMALLINT NOT NULL,
-    PRIMARY KEY (RECID)
-);
-
 CREATE TABLE IF NOT EXISTS room
 (
     room_number VARCHAR(255) NOT NULL,
     capacity INTEGER,
     free_of_it VARCHAR,
     PRIMARY KEY (room_number)
+);
+
+CREATE TABLE IF NOT EXISTS surgeries (
+  SID smallserial NOT NULL,
+  surgery_room integer NOT NULL,
+  treating_doc integer NOT NULL,
+  treated_pat integer NOT NULL,
+  PRIMARY KEY (SID)
 );
 
 ALTER TABLE doctor

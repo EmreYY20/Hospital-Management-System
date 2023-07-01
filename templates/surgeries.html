@@ -6,10 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <meta name="google-site-verification" content="kCT200-J0rfczENRkJQdYCqsDKkUo3Hvr3KZic_otwU" />
-
-    <meta name="description" content="Sb Admin dashboard migrated to Python by AppSeed" />
-    <meta name="author" content="startbootstrap & AppSeed" />
-    
+   
     <title>
         Surgeries
     </title>
@@ -27,7 +24,7 @@
     
 <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
             <!-- Navbar Brand-->
-            <a class="navbar-brand ps-3" href="/dashboard">Hospital Management</a>
+            <a class="navbar-brand ps-3" href="/">Hospital Management</a>
             <!-- Sidebar Toggle-->
             <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i class="fas fa-bars"></i></button>
             
@@ -42,7 +39,7 @@
         <div class="nav">
 
 
-            <a class="nav-link   " href="/dashboard">
+            <a class="nav-link   " href="/">
                 <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt fa-lg"></i></div>
                 Dashboard
             </a>
@@ -97,32 +94,32 @@
     <main>
         <div class="container-fluid px-4">
             <h1 class="mt-4">Surgeries</h1>
-            <button type="button" class="btn btn-success float-end" data-bs-toggle="modal" data-bs-target="#createModal">Add Medicine</button>
+            <button type="button" class="btn btn-success float-end" data-bs-toggle="modal" data-bs-target="#createModal">Add Surgery</button>
             <div class="modal fade" id="createModal" tabindex="-1" aria-labelledby="createModalLabel" aria-hidden="true">
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="createModalLabel">Add Medicine</h5>
+                            <h5 class="modal-title" id="createModalLabel">Add Surgery</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
                             <!-- Your form content here for creating a new Medicine -->
-                            <form action="/add_medicine" method="POST">
+                            <form action="/add_surgery" method="POST">
                                 <!-- Form fields for creating a new Medicine -->
                                 <div class="mb-3">
-                                    <label for="NDC" class="form-label">NDC</label>
-                                    <input type="text" class="form-control" id="NDC" name="NDC" placeholder="Enter NDC" required>
+                                    <label for="Surgery_Room" class="form-label">Surgery Room</label>
+                                    <input type="text" class="form-control" id="Surgery_Room" name="Surgery_Room" placeholder="Select room for surgery" required>
                                 </div>
                                 <div class="mb-3">
-                                    <label for="name" class="form-label">Name</label>
-                                    <input type="text" class="form-control" id="name" name="name" placeholder="Enter drug name" required>
+                                    <label for="Treating_Doctor" class="form-label">Treating Doctor</label>
+                                    <input type="text" class="form-control" id="Treating_Doctor" name="Treating_Doctor" placeholder="Select treating doctor" required>
                                 </div>
                                 <div class="mb-3">
-                                    <label for="count" class="form-label">Count</label>
-                                    <input type="text" class="form-control" id="count" name="count" placeholder="Enter amount" required>
+                                    <label for="Treated_Patient" class="form-label">Treated Patient</label>
+                                    <input type="text" class="form-control" id="Treated_Patient" name="Treated_Patient" placeholder="Select treated patient" required>
                                 </div>
                                 
-                            <button type="submit" class="btn btn-primary float-start">Add NDC</button>
+                            <button type="submit" class="btn btn-primary float-start">Add Surgery</button>
                             </form>
                         </div>
 
@@ -132,7 +129,7 @@
             </div>
 
             <ol class="breadcrumb mb-4">
-                <li class="breadcrumb-item"><a href="/dashboard">Dashboard</a></li>
+                <li class="breadcrumb-item"><a href="/">Dashboard</a></li>
                 <li class="breadcrumb-item active">Surgeries</li>
                 
                 
@@ -144,49 +141,54 @@
                     <table id="datatablesSimple">
                         <thead>
                             <tr>
-                                <th>NDC</th>
-                                <th>Drug Name</th>
-                                <th>Count</th>
-                                <th>Actions</th>
+                                <th>SID</th>
+                                <th>Surgery Room</th>
+                                <th>Treating Doctor</th>
+                                <th>Treated Patient</th>
                             </tr>
                         </thead>
                         <tfoot>
                             <tr>
-                                <th>NDC</th>
-                                <th>Drug Name</th>
-                                <th>Count</th>
-                                <th>Actions</th>
+                                <th>SID</th>
+                                <th>Surgery Room</th>
+                                <th>Treating Doctor</th>
+                                <th>Treated Patient</th>
                             </tr>
                         </tfoot>
                         <tbody>
-                            {% for med in med %}
+                            {% for surgery in surgeries %}
                             <tr>
-                                <td>{{ med.NDC }}</td>
-                                <td>{{ med.name }}</td>
-                                <td>{{ med.count }}</td>
+                                <td>{{ surgery.SID }}</td>
+                                <td>{{ surgery.Surgery_Room }}</td>
+                                <td>{{ surgery.Treating_Doctor }}</td>
+                                <td>{{ surgery.Treated_Patient }}</td>
                                 <td>
                                     
-                                    <a href="/medicine/{{ med.NDC }}/edit" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editModal{{ med.NDC }}">
+                                    <a href="/surgeries/{{ surgery.SID }}/edit" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editModal{{ surgery.SID }}">
                                         Edit
                                     </a>
                                     <!-- Edit medicine Modal -->
-                                    <div class="modal fade" id="editModal{{ med.NDC }}" tabindex="-1" aria-labelledby="editModalLabel{{ med.NDC }}" aria-hidden="true">
+                                    <div class="modal fade" id="editModal{{ surgery.SID }}" tabindex="-1" aria-labelledby="editModalLabel{{ surgery.SID }}" aria-hidden="true">
                                         <div class="modal-dialog">
                                             <div class="modal-content">
                                                 <div class="modal-header">
-                                                    <h5 class="modal-title" id="editModalLabel{{ med.NDC }}">Edit Medicine</h5>
+                                                    <h5 class="modal-title" id="editModalLabel{{ surgery.SID }}">Edit Surgery</h5>
                                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                 </div>
                                                 <div class="modal-body">
                                                     <!-- Your form content here -->
-                                                    <form action="/medicine/{{ med.NDC }}/edit" method="POST">
+                                                    <form action="/medicine/{{ surgery.SID }}/edit" method="POST">
                                                         <div class="mb-3">
-                                                            <label for="name" class="form-label">Drug name</label>
-                                                            <input type="text" class="form-control" id="name" name="name" value="{{ med.name }}">
+                                                            <label for="Surgery_Room" class="form-label">Surgery Room</label>
+                                                            <input type="text" class="form-control" id="Surgery_Room" name="Surgery_Room" value="{{ surgery.Surgery_Room }}">
                                                         </div>
                                                         <div class="mb-3">
-                                                            <label for="count" class="form-label">Count</label>
-                                                            <input type="text" class="form-control" id="count" name="count" value="{{ med.count }}">
+                                                            <label for="Treating_Doctor" class="form-label">Treating Doctor</label>
+                                                            <input type="text" class="form-control" id="Treating_Doctor" name="Treating_Doctor" value="{{ surgery.Treating_Doctor }}">
+                                                        </div>
+                                                        <div class="mb-3">
+                                                            <label for="Treated_Patient" class="form-label">Treating Patient</label>
+                                                            <input type="text" class="form-control" id="Treated_Patient" name="Treated_Patient" value="{{ surgery.Treated_Patient }}">
                                                         </div>
                                                         
                                                         <!-- Add additional form fields or content here -->
@@ -197,7 +199,7 @@
                                         </div>
                                     </div>
                                     
-                                    <a href="/medicine/{{ med.NDC }}/delete" class="btn btn-danger delete-btn">Delete</a>
+                                    <a href="/surgeries/{{ surgery.SID }}/delete" class="btn btn-danger delete-btn">Delete</a>
                                     
                                 </td>
                             </tr>
