@@ -61,7 +61,7 @@ CREATE TABLE IF NOT EXISTS room
 );
 
 CREATE TABLE IF NOT EXISTS surgeries (
-  SID smallserial NOT NULL,
+  SID SERIAL NOT NULL,
   surgery_room integer NOT NULL,
   treating_doc integer NOT NULL,
   treated_pat integer NOT NULL,

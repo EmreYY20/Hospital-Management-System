@@ -449,22 +449,23 @@ def surgery():
     surgeries = Surgeries.query.all()
     return render_template('surgeries.html', surgeries=surgeries)
 
-@app.route('/surgeries/<room_number>/delete', methods=["GET", 'POST'])
-def delete_room(room_number):
-    room_number = Room.query.get(room_number)
-    if room_number:
-        db.session.delete(room_number)
+@app.route('/surgeries/<sid>/delete', methods=["GET", 'POST'])
+def delete_surgery(sid):
+    sid = Surgeries.query.get(sid)
+    if sid:
+        db.session.delete(sid)
         db.session.commit()
     return redirect("/surgeries")
 
-@app.route('/surgeries/<room_number>/edit', methods=['GET', 'POST'])
-def edit_rooms(room_number):
-    rooms = Room.query.get(room_number)
+@app.route('/surgeries/<sid>/edit', methods=['GET', 'POST'])
+def edit_surgery(sid):
+    surgeries = Surgeries.query.get(sid)
 
     if request.method == 'POST':
         # Update the patient's information with the submitted form data
-        rooms.capactiy = request.form['capacity']
-        rooms.free_of_it = request.form['free_of_it']
+        surgeries.surgery_room = request.form['Surgery_Room']
+        surgeries.treating_doc = request.form['Treating_Doctor']
+        surgeries.treated_pat = request.form['Treated_Patient']
 
         # Save the changes to the database
         db.session.commit()
@@ -473,13 +474,13 @@ def edit_rooms(room_number):
         return redirect("/surgeries")
 
 @app.route('/add_surgery', methods=['POST'])
-def add_room():
-    room_number = request.form['room_number']
-    capacity = request.form['capacity']
-    free_of_it = request.form['free_of_it']
+def add_surgery():
+    surgery_room = request.form['Surgery_Room']
+    treating_doc = request.form['Treating_Doctor']
+    treated_pat = request.form['Treated_Patient']
 
-    new_room = Room(room_number=room_number, capacity=capacity, free_of_it=free_of_it)
-    db.session.add(new_room)
+    new_surgery = Surgeries(surgery_room=surgery_room, treating_doc=treating_doc, treated_pat=treated_pat)
+    db.session.add(new_surgery)
     db.session.commit()
 
     return redirect('/surgeries')
