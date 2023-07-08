@@ -13,7 +13,7 @@ CREATE TABLE IF NOT EXISTS doctor
     date_of_birth DATE NOT NULL,
     address VARCHAR(255) NOT NULL,
     phone_number VARCHAR(25) NOT NULL,
-    department VARCHAR,
+    department VARCHAR NOT NULL,
     assigned_patients INTEGER,
     PRIMARY KEY (DID)
 );
@@ -33,7 +33,7 @@ CREATE TABLE IF NOT EXISTS nurse
     lastname VARCHAR(255) NOT NULL,
     address VARCHAR(255) NOT NULL,
     phone_number VARCHAR(25) NOT NULL,
-    date_of_birth DATE,
+    date_of_birth DATE NOT NULL,
     PRIMARY KEY (NID)
 );
 
@@ -44,10 +44,10 @@ CREATE TABLE IF NOT EXISTS patient
     lastname VARCHAR(255) NOT NULL,
     age_sex VARCHAR(10) NOT NULL,
     date_of_birth DATE NOT NULL,
-    address VARCHAR(255),
+    address VARCHAR(255) NOT NULL,
     date_admitted DATE NOT NULL,
     date_discharged DATE,
-    phone_number VARCHAR(25),
+    phone_number VARCHAR(25) NOT NULL,
     assigned_doc INTEGER,
     PRIMARY KEY (PID)
 );
@@ -55,8 +55,8 @@ CREATE TABLE IF NOT EXISTS patient
 CREATE TABLE IF NOT EXISTS room
 (
     room_number VARCHAR(255) NOT NULL,
-    capacity INTEGER,
-    free_of_it VARCHAR,
+    capacity INTEGER NOT NULL,
+    free_of_it VARCHAR NOT NULL,
     PRIMARY KEY (room_number)
 );
 
