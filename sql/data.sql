@@ -105,4 +105,4 @@ VALUES  ('A001', 4, '3'),
 
 
 INSERT INTO surgeries (SID, surgery_room, treating_doc, treated_pat)
-VALUES (1, 'A002', 1, 1);
+VALUES (1, '02', 1, 1);

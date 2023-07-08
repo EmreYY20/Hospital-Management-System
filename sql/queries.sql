@@ -1,109 +1,70 @@
-CREATE OR REPLACE FUNCTION retrieve_doctors_with_departments()
-RETURNS TABLE (forename VARCHAR, lastname VARCHAR, dep_name VARCHAR)
-AS $$
-BEGIN
-    -- Retrieve the names of doctors along with the departments they are assigned to
-    RETURN QUERY
-    SELECT d.forename, d.lastname, dp.dep_name
-    FROM doctor AS d
-    JOIN department dp ON d.department = dp.dep_code;
-END;
-$$ LANGUAGE plpgsql;
+-- 1. Query: Retrieve the names of doctors along with the departments they are assigned to
+-- Description: This query retrieves the names of doctors and their corresponding departments.
+SELECT d.forename, d.lastname, dp.dep_name
+FROM doctor AS d
+JOIN department dp ON d.department = dp.dep_code;
 
-CREATE OR REPLACE FUNCTION find_total_medicine_count()
-RETURNS TABLE (total_count INTEGER)
-AS $$
-BEGIN
-    -- Find the total count of medicines available in the database
-    RETURN QUERY
-    SELECT SUM(count) AS total_count
-    FROM medicine;
-END;
-$$ LANGUAGE plpgsql;
+-- 2. Query: Find the total count of medicines available in the database
+-- Description: This query calculates the total count of medicines available in the database.
+SELECT SUM(count) AS total_count
+FROM medicine;
 
-CREATE OR REPLACE FUNCTION retrieve_patients_with_doctors()
-RETURNS TABLE (patient_forename VARCHAR, patient_lastname VARCHAR, doctor_forename VARCHAR, doctor_lastname VARCHAR)
-AS $$
-BEGIN
-    -- Retrieve the names of patients and their assigned doctors' names
-    RETURN QUERY
-    SELECT p.forename AS patient_forename, p.lastname AS patient_lastname, d.forename AS doctor_forename, d.lastname AS doctor_lastname
-    FROM patient p
-    JOIN doctor d ON p.assigned_doc = d.DID;
-END;
-$$ LANGUAGE plpgsql;
+-- 3. Query: Retrieve the names of patients and their assigned doctors' names
+-- Description: This query retrieves the names of patients and their assigned doctors' names.
+SELECT p.forename AS patient_forename, p.lastname AS patient_lastname, d.forename AS doctor_forename, d.lastname AS doctor_lastname
+FROM patient p
+JOIN doctor d ON p.assigned_doc = d.DID;
 
-CREATE OR REPLACE FUNCTION list_nurses_with_assigned_patients()
-RETURNS TABLE (forename VARCHAR, lastname VARCHAR, assigned_patients_count INTEGER)
-AS $$
-BEGIN
-    -- List the nurses along with the number of assigned patients for each nurse
-    RETURN QUERY
-    SELECT n.forename, n.lastname, COUNT(p.PID) AS assigned_patients_count
-    FROM nurse n
-    LEFT JOIN patient p ON n.NID = p.assigned_doc
-    GROUP BY n.NID, n.forename, n.lastname;
-END;
-$$ LANGUAGE plpgsql;
+-- 4. Query: List the nurses along with the number of assigned patients for each nurse
+-- Description: This query lists the nurses along with the number of assigned patients for each nurse.
+SELECT n.forename, n.lastname, COUNT(p.PID) AS assigned_patients_count
+FROM nurse n
+LEFT JOIN patient p ON n.NID = p.assigned_doc
+GROUP BY n.NID, n.forename, n.lastname;
 
-CREATE OR REPLACE FUNCTION retrieve_free_rooms()
-RETURNS TABLE (room_number VARCHAR, capacity INTEGER)
-AS $$
-BEGIN
-    -- Retrieve the rooms that are currently free and their capacities
-    RETURN QUERY
-    SELECT room_number, capacity
-    FROM room
-    WHERE free_of_it = 'yes';
-END;
-$$ LANGUAGE plpgsql;
+-- 5. Query: Retrieve the rooms that are currently free and their capacities
+-- Description: This query retrieves the rooms that are currently free and their capacities.
+SELECT room_number, capacity
+FROM room
+WHERE free_of_it = 'yes';
 
-CREATE OR REPLACE FUNCTION find_average_age_of_patients_by_doctor()
-RETURNS TABLE (doctor_forename VARCHAR, doctor_lastname VARCHAR, average_age_of_patients FLOAT)
-AS $$
-BEGIN
-    -- Find the average age of patients grouped by their assigned doctors
-    RETURN QUERY
-    SELECT d.forename, d.lastname, AVG(EXTRACT(YEAR FROM age(now(), p.date_of_birth))) AS average_age_of_patients
-    FROM patient p
-    JOIN doctor d ON p.assigned_doc = d.DID
-    GROUP BY d.DID, d.forename, d.lastname;
-END;
-$$ LANGUAGE plpgsql;
+-- 6. Query: Find the average age of patients grouped by their assigned doctors
+-- Description: This query calculates the average age of patients grouped by their assigned doctors.
+SELECT d.forename, d.lastname, AVG(EXTRACT(YEAR FROM age(now(), p.date_of_birth))) AS average_age_of_patients
+FROM patient p
+JOIN doctor d ON p.assigned_doc = d.DID
+GROUP BY d.DID, d.forename, d.lastname;
 
-CREATE OR REPLACE FUNCTION retrieve_surgeries_with_details()
-RETURNS TABLE (SID INTEGER, treating_doctor_forename VARCHAR, treating_doctor_lastname VARCHAR, treated_patient_forename VARCHAR, treated_patient_lastname VARCHAR)
-AS $$
-BEGIN
-    -- Retrieve the surgeries performed, including the details of the treating doctor and the treated patient
-    RETURN QUERY
-    SELECT s.SID, d.forename AS treating_doctor_forename, d.lastname AS treating_doctor_lastname,
-           p.forename AS treated_patient_forename, p.lastname AS treated_patient_lastname
-    FROM surgeries s
-    JOIN doctor d ON s.treating_doc = d.DID
-    JOIN patient p ON s.treated_pat = p.PID;
-END;
-$$ LANGUAGE plpgsql;
+-- 7. Query: Retrieve the surgeries performed, including the details of the treating doctor and the treated patient
+-- Description: This query retrieves the surgeries performed, including the details of the treating doctor and the treated patient.
+SELECT s.SID, d.forename AS treating_doctor_forename, d.lastname AS treating_doctor_lastname, p.forename AS treated_patient_forename, p.lastname AS treated_patient_lastname
+FROM surgeries s
+JOIN doctor d ON s.treating_doc = d.DID
+JOIN patient p ON s.treated_pat = p.PID;
 
-/* 
--- Query 1: Retrieve the names of doctors along with the departments they are assigned to
-    SELECT * FROM retrieve_doctors_with_departments();
-    
-    -- Query 2: Find the total count of medicines available in the database
-    SELECT * FROM find_total_medicine_count();
-    
-    -- Query 3: Retrieve the names of patients and their assigned doctors' names
-    SELECT * FROM retrieve_patients_with_doctors();
-    
-    -- Query 4: List the nurses along with the number of assigned patients for each nurse
-    SELECT * FROM list_nurses_with_assigned_patients();
-    
-    -- Query 5: Retrieve the rooms that are currently free and their capacities
-    SELECT * FROM retrieve_free_rooms();
-    
-    -- Query 6: Find the average age of patients grouped by their assigned doctors
-    SELECT * FROM find_average_age_of_patients_by_doctor();
-    
-    -- Query 7: Retrieve the surgeries performed, including the details of the treating doctor and the treated patient
-    SELECT * FROM retrieve_surgeries_with_details();
-*/
+-- 8. Query: Get all underage patients (age < 18)
+-- Description: This query retrieves all underage patients (age < 18) from the Patient table.
+SELECT *
+FROM Patient
+WHERE CAST(SPLIT_PART(age_sex, '/', 1) AS INTEGER) < 18;
+
+-- 9. Query: Medicines with Low Stock
+-- Description: This query retrieves the medicines where the stock count is less than 10 and require reloading.
+SELECT NDC, name, count
+FROM medicine
+WHERE count < 10;
+
+-- 10. Query: Patients with Multiple Admissions
+-- Description: This query retrieves the patients who have been admitted to the hospital multiple times. It provides insights into recurring hospital visits and patient readmissions.
+SELECT p.forename, p.lastname, COUNT(DISTINCT p.date_admitted) AS admission_count
+FROM patient p
+GROUP BY p.forename, p.lastname
+HAVING COUNT(DISTINCT p.date_admitted) > 1;
+
+-- 11. Query: Total Number of Assigned Patients by Department
+-- Description: This query calculates the total number of assigned patients for each department. It provides the overall patient workload distribution across departments.
+SELECT dp.dep_name, SUM(d.assigned_patients) AS total_assigned_patients
+FROM department dp
+JOIN doctor d ON dp.dep_code = d.department
+GROUP BY dp.dep_name
+ORDER BY total_assigned_patients DESC;
