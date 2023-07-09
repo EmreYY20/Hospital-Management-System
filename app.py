@@ -26,8 +26,9 @@ class Patients(db.Model):
     date_admitted = db.Column(db.String(255))
     date_discharged = db.Column(db.String(255))
     assigned_doc = db.Column(db.Integer)
+    assigned_room = db.Column(db.String(255))
  
-    def __init__(self, forename, lastname, age_sex, date_of_birth, address, phone_number, date_admitted, date_discharged, assigned_doc):
+    def __init__(self, forename, lastname, age_sex, date_of_birth, address, phone_number, date_admitted, date_discharged, assigned_doc, assigned_room):
         self.forename = forename
         self.lastname = lastname
         self.age_sex = age_sex
@@ -37,7 +38,7 @@ class Patients(db.Model):
         self.date_admitted = date_admitted
         self.date_discharged = date_discharged
         self.assigned_doc = assigned_doc
- 
+        self.assigned_room = assigned_room
 
 class Department(db.Model):
     __tablename__ = 'department'
@@ -87,11 +88,13 @@ class Room(db.Model):
     room_number = db.Column('room_number', db.String(255), primary_key = True)
     capacity = db.Column(db.Integer)
     free_of_it = db.Column(db.Integer)
+    #nurse_id = db.Column(db.Integer, db.ForeignKey('nurse.nid'))
  
     def __init__(self, room_number, capacity, free_of_it):
         self.room_number = room_number
         self.capacity = capacity
         self.free_of_it = free_of_it
+        #self.nurse_id = nurse_id
  
 
 class Nurse(db.Model):
@@ -137,7 +140,9 @@ CRUD Patient
 @app.route('/patients')
 def patients():
     patients = Patients.query.all()
-    return render_template('patients.html', patients=patients)
+    doctors = Doctors.query.all()
+    rooms = Room.query.all() 
+    return render_template('patients.html', patients=patients, doctors=doctors, rooms=rooms)
 
 @app.route('/api/patient_count')
 def api_patient_count():
@@ -167,7 +172,6 @@ def edit_patient(pid):
         patient.date_admitted = request.form['admitted']
         patient.date_discharged = request.form['discharged']
         patient.phone_number = request.form['phone']
-        patient.assigned_doc = request.form['assigned_doc']
 
         # Save the changes to the database
         db.session.commit()
@@ -188,10 +192,12 @@ def add_patient():
     date_discharged = request.form['date_discharged']
     phone_number = request.form['phone_number']
     assigned_doc = request.form['assigned_doc']
+    assigned_room = request.form['assigned_room']
 
     new_patient = Patients(forename=forename, lastname=lastname, 
                            age_sex=age_sex, date_of_birth=date_of_birth, address=address, phone_number=phone_number, 
-                           date_admitted=date_admitted, date_discharged=date_discharged, assigned_doc=assigned_doc)
+                           date_admitted=date_admitted, date_discharged=date_discharged, assigned_doc=assigned_doc,
+                           assigned_room=assigned_room)
     db.session.add(new_patient)
     db.session.commit()
 
@@ -293,7 +299,13 @@ CRUD Doctor
 def doctors():
     doctors = Doctors.query.all()
     departments = Department.query.with_entities(Department.dep_code).all()
-    return render_template('doctors.html', doctors=doctors, departments=departments)
+
+     # Fetch the list of assigned patient IDs for each doctor
+    assigned_patients = {}
+    for doc in doctors:
+        assigned_patients[doc.did] = [patient.pid for patient in Patients.query.filter_by(assigned_doc=doc.did).all()]
+
+    return render_template('doctors.html', doctors=doctors, departments=departments, assigned_patients=assigned_patients)
 
 @app.route('/api/doctor_count')
 def api_doctor_count():
@@ -321,7 +333,6 @@ def edit_doctor(did):
         doctors.address = request.form['address']
         doctors.phone_number = request.form['phone']
         doctors.dep = request.form['dep']
-        doctors.assigned_patients = request.form["assigned_patients"]
 
         # Save the changes to the database
         db.session.commit()
@@ -350,6 +361,11 @@ def add_doctor():
 """
 CRUD Nurse
 """
+@app.route('/api/nurse_count')
+def api_nurse_count():
+    nurse_count = Nurse.query.count()
+    return {"count": nurse_count}
+
 @app.route('/nurse')
 def nurse():
     nurse = Nurse.query.all()
@@ -444,6 +460,11 @@ def add_room():
 """
 CRUD Surgery
 """
+@app.route('/api/surgery_count')
+def api_surgery_count():
+    surgery_count = Surgeries.query.count()
+    return {"count": surgery_count}
+
 @app.route('/surgeries')
 def surgery():
     surgeries = Surgeries.query.all()

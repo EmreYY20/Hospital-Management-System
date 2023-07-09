@@ -175,7 +175,7 @@
                                 <th>Address</th>
                                 <th>Phone Number</th>
                                 <th>Department</th>
-                                <th>Assigned Patients (ID)</th>
+                                <th>Assigned Patients (PID)</th>
                                 <th>Actions</th>
 
                             </tr>
@@ -190,7 +190,13 @@
                                 <td>{{ doc.address }}</td>
                                 <td>{{ doc.phone_number }}</td>
                                 <td>{{ doc.department }}</td>
-                                <td>{{ doc.assigned_patients }}</td>
+                                <td>
+                                    {% if doc.did in assigned_patients %}
+                                        {% for pid in assigned_patients[doc.did] %}
+                                            {{ pid }},
+                                        {% endfor %}
+                                    {% endif %}
+                                </td>
                                 
                                 <td>
                                     

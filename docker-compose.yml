@@ -24,9 +24,10 @@ services:
       - POSTGRES_DB=HMS
     volumes:
       - ./sql/schema.sql:/docker-entrypoint-initdb.d/1-schema.sql
-      - ./sql/data.sql:/docker-entrypoint-initdb.d/2-data.sql
-      - ./sql/views.sql:/docker-entrypoint-initdb.d/3-views.sql
-      - ./sql/queries.sql:/docker-entrypoint-initdb.d/4-queries.sql
+      - ./sql/keys.sql:/docker-entrypoint-initdb.d/2-keys.sql
+      - ./sql/data.sql:/docker-entrypoint-initdb.d/3-data.sql
+      - ./sql/views.sql:/docker-entrypoint-initdb.d/4-views.sql
+      - ./sql/queries.sql:/docker-entrypoint-initdb.d/5-queries.sql
 
   adminer:
     image: adminer

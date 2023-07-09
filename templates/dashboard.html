@@ -156,7 +156,7 @@
                 <div class="col-xl-3 col-md-6">
                     <div class="card bg-light text mb-4">
                         <div class="card-body"><b><span id="nurse-count"></span></b>
-                            Nurse</div>
+                            Nurses</div>
                             <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
                             <script>
                             $(document).ready(function() {
@@ -182,7 +182,25 @@
                 </div>
                 <div class="col-xl-3 col-md-6">
                     <div class="card bg-light text mb-4">
-                        <div class="card-body">Surgeries</div>
+                        <div class="card-body"><b><span id="surgery-count"></span></b>
+                            Surgeries</div>
+                            <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+                            <script>
+                            $(document).ready(function() {
+                                // Fetch the patient count using AJAX
+                                $.ajax({
+                                    url: "/api/surgery_count",
+                                    type: "GET",
+                                    success: function(data) {
+                                        // Update the element with the patient count
+                                        $("#surgery-count").text(data.count);
+                                    },
+                                    error: function(xhr, status, error) {
+                                        console.error(error);
+                                    }
+                                });
+                            });
+                            </script>
                         <div class="card-footer d-flex align-items-center justify-content-between">
                             <a class="small text stretched-link" href="/surgeries">View Details</a>
                             <div class="small text"><i class="fas fa-angle-right"></i></div>

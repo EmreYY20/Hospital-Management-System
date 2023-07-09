@@ -8,7 +8,6 @@ VALUES ('ACEM', 'Accident and emergency (A&E)'),
        ('GYNE', 'Gynecology'),
        ('HEMA', 'Hematology'),
        ('NEUR', 'Neurology'),
-       ('None', 'None'),
        ('ONCO', 'Oncology'),
        ('OPHT', 'Ophthalmology'),
        ('RADI', 'Radiology'),
@@ -89,7 +88,8 @@ VALUES (1, 'John', 'Smith', '30/M', '1993-05-10', '123 Main Street, New York', '
 
 
 INSERT INTO room (room_number, capacity, free_of_it)
-VALUES  ('A001', 4, '3'),
+VALUES  ('None', 0, '0'),
+        ('A001', 4, '3'),
         ('A002', 1, '1'),
         ('A003', 2, '2'),
         ('A004', 3, '2'),

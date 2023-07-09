@@ -130,13 +130,27 @@
                                 </div>
                                 <div class="mb-3">
                                     <label for="assigned_doc" class="form-label">Assigned Doctor (ID)</label>
-                                    <input type="int" class="form-control" id="assigned_doc" name="assigned_doc" placeholder="Enter Doctor ID" required>
-                                </div>
+                                    <select class="form-select" id="assigned_doc" name="assigned_doc" required>
+                                        <option value="" selected disabled>Select Doctor</option>
+                                        <!-- Add the options dynamically from the doctors retrieved from the database -->
+                                        {% for doctor in doctors %}
+                                            <option value="{{ doctor.did }}">{{ doctor.did }} - {{ doctor.department }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div> 
+                                <div class="mb-3">
+                                    <label for="assigned_room" class="form-label">Assigned Room</label>
+                                    <select class="form-select" id="assigned_room" name="assigned_room" required>
+                                        <option value="" selected disabled>Select Room</option>
+                                        <!-- Add the options dynamically from the rooms retrieved from the database -->
+                                        {% for room in rooms %}
+                                            <option value="{{ room.room_number }}">{{ room.room_number }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>                             
                             <button type="submit" class="btn btn-primary float-start">Add</button>
                             </form>
                         </div>
-
-
                     </div>
                 </div>
             </div>
@@ -163,7 +177,8 @@
                                 <th>Phone Number</th>
                                 <th>Date admitted</th>
                                 <th>Date discharged</th>
-                                <th>Assigned Doctor (ID)</th>
+                                <th>Assigned Doctor (DID)</th>
+                                <th>Assigned Room</th>
                                 <th>Actions</th>
                             </tr>
                         </thead>
@@ -179,6 +194,7 @@
                                 <th>Date admitted</th>
                                 <th>Date discharged</th>
                                 <th>Assigned Doctor (ID)</th>
+                                <th>Assigned Room</th>
                                 <th>Actions</th>
                             </tr>
                         </tfoot>
@@ -195,6 +211,7 @@
                                 <td>{{ patient.date_admitted }}</td>
                                 <td>{{ patient.date_discharged }}</td>
                                 <td>{{ patient.assigned_doc }}</td>
+                                <td>{{ patient.assigned_room }}</td>
                                 <td>
                                     
                                     <a href="/patients/{{ patient.pid }}/edit" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editModal{{ patient.pid }}">
@@ -242,10 +259,6 @@
                                                         <div class="mb-3">
                                                             <label for="discharged" class="form-label">Date Discharged</label>
                                                             <input type="text" class="form-control" id="discharged" name="discharged" value="{{ patient.date_discharged }}">
-                                                        </div>
-                                                        <div class="mb-3">
-                                                            <label for="assigned_doc" class="form-label">Assigned Doctor</label>
-                                                            <input type="text" class="form-control" id="assigned_doc" name="assigned_doc" value="{{ patient.assigned_doc }}">
                                                         </div>
                                                         <!-- Add additional form fields or content here -->
                                                         <button type="submit" class="btn btn-primary">Save Changes</button>
