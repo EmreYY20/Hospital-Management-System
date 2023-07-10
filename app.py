@@ -1,6 +1,5 @@
 # Import libraries
-from flask import Flask, render_template, session, redirect, request, flash
-from flask_sqlalchemy import SQLAlchemy
+from flask import Flask, render_template, redirect, request, flash
 from models import db, Patients, Department, Medicine, Doctors, Room, Nurse, Surgeries
 
 # Initialize app
@@ -10,7 +9,7 @@ app = Flask (__name__)
 app.config['SQLALCHEMY_DATABASE_URI']="postgresql://postgres:1234@database:5432/HMS"
 app.config['SECRET_KEY']='thisissecret'
 
-# Initialize DB with app
+# Initialize db with app
 db.init_app(app)
 
 ####========================Flask App - Routing========================####
