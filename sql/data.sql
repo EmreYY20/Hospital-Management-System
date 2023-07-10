@@ -64,27 +64,27 @@ VALUES  (1, 'Lisa', 'Johnson', '123 Elm Street, Anytown, USA', '555-1234', '1990
         (10, 'Lily', 'Jones', '789 Cedar Street, Nowhere, USA', '555-2345', '1996-02-05');
 
 
-INSERT INTO patient (PID, forename, lastname, age_sex, date_of_birth, address, date_admitted, date_discharged, phone_number, assigned_doc)
-VALUES (1, 'John', 'Smith', '30/M', '1993-05-10', '123 Main Street, New York', '2023-05-16', '2023-05-18', '555-1234', 1),
-       (2, 'Emily', 'Johnson', '28/F', '1995-08-12', '456 Elm Street, Los Angeles', '2023-05-17', '2023-05-19', '555-5678', 2),
-       (3, 'Michael', 'Williams', '35/M', '1988-02-20', '789 Oak Street, Chicago', '2023-05-18', '2023-05-21', '555-7890', 8),
-       (4, 'Emma', 'Jones', '27/F', '1996-07-05', '234 Maple Avenue, Houston', '2023-05-19', '2023-05-21', '555-4321', 6),
-       (5, 'William', 'Brown', '32/M', '1991-11-15', '567 Pine Street, Miami', '2023-05-20', '2023-05-23', '555-8765', 6),
-       (6, 'Olivia', 'Davis', '25/F', '1998-04-22', '890 Cedar Lane, Seattle', '2023-05-21', '2023-05-23', '555-9876', 1),
-       (7, 'James', 'Miller', '29/M', '1994-09-30', '345 Oak Street, Atlanta', '2023-05-22', '2023-05-24', '555-2345', 5),
-       (8, 'Sophia', 'Wilson', '26/F', '1997-03-18', '678 Elm Street, Boston', '2023-05-23', '2023-05-25', '555-6789', 2),
-       (9, 'Alexander', 'Anderson', '31/M', '1992-06-28', '901 Maple Avenue, San Francisco', '2023-05-24', '2023-05-27', '555-3456', 3),
-       (10, 'Isabella', 'Taylor', '24/F', '1999-01-08', '123 Pine Street, Dallas', '2023-05-25', '2023-05-27', '555-7890', 1),
-       (11, 'Daniel', 'Martin', '33/M', '1990-09-05', '456 Oak Street, Washington D.C.', '2023-05-26', '2023-05-28', '555-2345', 2),
-       (12, 'Mia', 'Thompson', '23/F', '2000-02-14', '789 Cedar Lane, Philadelphia', '2023-05-27', '2023-05-30', '555-6789', 3),
-       (13, 'David', 'Garcia', '28/M', '1995-05-01', '234 Maple Avenue, Phoenix', '2023-05-28', '2023-05-30', '555-1234', 7),
-       (14, 'Ava', 'Martinez', '26/F', '1997-10-11', '567 Pine Street, San Diego', '2023-05-29', '2023-06-01', '555-5678', 2),
-       (15, 'Joseph', 'Robinson', '30/M', '1993-03-23', '890 Cedar Lane, Denver', '2023-05-30', '2023-06-01', '555-7890', 11),
-       (16, 'Sofia', 'Clark', '25/F', '1998-08-08', '345 Oak Street, Las Vegas', '2023-05-31', '2023-06-03', '555-4321', 8),
-       (17, 'Christopher', 'Rodriguez', '29/M', '1994-01-17', '678 Elm Street, Orlando', '2023-06-01', '2023-06-03', '555-8765', 2),
-       (18, 'Abigail', 'Lee', '27/F', '1996-06-27', '901 Maple Avenue, Nashville', '2023-06-02', '2023-06-05', '555-9876', 13),
-       (19, 'Andrew', 'Walker', '32/M', '1991-12-13', '123 Pine Street, Austin', '2023-06-03', '2023-06-05', '555-2345', 4),
-       (20, 'Madison', 'Hall', '24/F', '1999-07-26', '456 Oak Street, San Antonio', '2023-06-04', '2023-06-07', '555-6789', 2);
+INSERT INTO patient (PID, forename, lastname, age, sex, date_of_birth, address, date_admitted, date_discharged, phone_number, assigned_doc)
+VALUES (1, 'John', 'Smith', 30, 'M', '1993-05-10', '123 Main Street, New York', '2023-05-16', '2023-05-18', '555-1234', 1),
+       (2, 'Emily', 'Johnson', 28, 'F', '1995-08-12', '456 Elm Street, Los Angeles', '2023-05-17', '2023-05-19', '555-5678', 2),
+       (3, 'Michael', 'Williams', 35, 'M', '1988-02-20', '789 Oak Street, Chicago', '2023-05-18', '2023-05-21', '555-7890', 8),
+       (4, 'Emma', 'Jones', 27, 'F', '1996-07-05', '234 Maple Avenue, Houston', '2023-05-19', '2023-05-21', '555-4321', 6),
+       (5, 'William', 'Brown', 32, 'M', '1991-11-15', '567 Pine Street, Miami', '2023-05-20', '2023-05-23', '555-8765', 6),
+       (6, 'Olivia', 'Davis', 25, 'F', '1998-04-22', '890 Cedar Lane, Seattle', '2023-05-21', '2023-05-23', '555-9876', 1),
+       (7, 'James', 'Miller', 29, 'M', '1994-09-30', '345 Oak Street, Atlanta', '2023-05-22', '2023-05-24', '555-2345', 5),
+       (8, 'Sophia', 'Wilson', 26, 'F', '1997-03-18', '678 Elm Street, Boston', '2023-05-23', '2023-05-25', '555-6789', 2),
+       (9, 'Alexander', 'Anderson', 31, 'M', '1992-06-28', '901 Maple Avenue, San Francisco', '2023-05-24', '2023-05-27', '555-3456', 3),
+       (10, 'Isabella', 'Taylor', 24, 'F', '1999-01-08', '123 Pine Street, Dallas', '2023-05-25', '2023-05-27', '555-7890', 1),
+       (11, 'Daniel', 'Martin', 33, 'M', '1990-09-05', '456 Oak Street, Washington D.C.', '2023-05-26', '2023-05-28', '555-2345', 2),
+       (12, 'Mia', 'Thompson', 23, 'F', '2000-02-14', '789 Cedar Lane, Philadelphia', '2023-05-27', '2023-05-30', '555-6789', 3),
+       (13, 'David', 'Garcia', 28, 'M', '1995-05-01', '234 Maple Avenue, Phoenix', '2023-05-28', '2023-05-30', '555-1234', 7),
+       (14, 'Ava', 'Martinez', 26, 'F', '1997-10-11', '567 Pine Street, San Diego', '2023-05-29', '2023-06-01', '555-5678', 2),
+       (15, 'Joseph', 'Robinson', 30, 'M', '1993-03-23', '890 Cedar Lane, Denver', '2023-05-30', '2023-06-01', '555-7890', 11),
+       (16, 'Sofia', 'Clark', 25, 'F', '1998-08-08', '345 Oak Street, Las Vegas', '2023-05-31', '2023-06-03', '555-4321', 8),
+       (17, 'Christopher', 'Rodriguez', 29, 'M', '1994-01-17', '678 Elm Street, Orlando', '2023-06-01', '2023-06-03', '555-8765', 2),
+       (18, 'Abigail', 'Lee', 27, 'F', '1996-06-27', '901 Maple Avenue, Nashville', '2023-06-02', '2023-06-05', '555-9876', 13),
+       (19, 'Andrew', 'Walker', 32, 'M', '1991-12-13', '123 Pine Street, Austin', '2023-06-03', '2023-06-05', '555-2345', 4),
+       (20, 'Madison', 'Hall', 24, 'F', '1999-07-26', '456 Oak Street, San Antonio', '2023-06-04', '2023-06-07', '555-6789', 2);
 
 
 INSERT INTO room (room_number, capacity, free_of_it)

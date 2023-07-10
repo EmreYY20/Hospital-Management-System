@@ -45,8 +45,8 @@ JOIN patient p ON s.treated_pat = p.PID;
 -- 8. Query: Get all underage patients (age < 18)
 -- Description: This query retrieves all underage patients (age < 18) from the Patient table.
 SELECT *
-FROM Patient
-WHERE CAST(SPLIT_PART(age_sex, '/', 1) AS INTEGER) < 18;
+FROM patient
+WHERE age < 18;
 
 -- 9. Query: Medicines with Low Stock
 -- Description: This query retrieves the medicines where the stock count is less than 10 and require reloading.

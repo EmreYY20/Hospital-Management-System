@@ -19,7 +19,8 @@ class Patients(db.Model):
     pid = db.Column('pid', db.Integer, primary_key = True)
     forename = db.Column(db.String(255))
     lastname = db.Column(db.String(255))
-    age_sex = db.Column(db.String(255))
+    age = db.Column(db.Integer)
+    sex = db.Column(db.String(1))
     date_of_birth = db.Column(db.String(255))
     address = db.Column(db.String(255))
     phone_number = db.Column(db.String(255))
@@ -28,10 +29,11 @@ class Patients(db.Model):
     assigned_doc = db.Column(db.Integer)
     assigned_room = db.Column(db.String(255))
  
-    def __init__(self, forename, lastname, age_sex, date_of_birth, address, phone_number, date_admitted, date_discharged, assigned_doc, assigned_room):
+    def __init__(self, forename, lastname, age, sex, date_of_birth, address, phone_number, date_admitted, date_discharged, assigned_doc, assigned_room):
         self.forename = forename
         self.lastname = lastname
-        self.age_sex = age_sex
+        self.age = age
+        self.sex = sex
         self.date_of_birth = date_of_birth
         self.address = address
         self.phone_number = phone_number
@@ -166,7 +168,8 @@ def edit_patient(pid):
         # Update the patient's information with the submitted form data
         patient.forename = request.form['forename']
         patient.lastname = request.form['lastname']
-        patient.age_sex = request.form['age_sex']
+        patient.age = request.form['age']
+        patient.sex = request.form['sex']
         patient.date_of_birth = request.form['dob']
         patient.address = request.form['address']
         patient.date_admitted = request.form['admitted']
@@ -185,7 +188,8 @@ def edit_patient(pid):
 def add_patient():
     forename = request.form['forename']
     lastname = request.form['lastname']
-    age_sex = request.form['age_sex']
+    age = request.form['age']
+    sex = request.form['sex']
     date_of_birth = request.form['date_of_birth']
     address = request.form['address']
     date_admitted = request.form['date_admitted']
@@ -195,7 +199,7 @@ def add_patient():
     assigned_room = request.form['assigned_room']
 
     new_patient = Patients(forename=forename, lastname=lastname, 
-                           age_sex=age_sex, date_of_birth=date_of_birth, address=address, phone_number=phone_number, 
+                           age=age, sex=sex, date_of_birth=date_of_birth, address=address, phone_number=phone_number, 
                            date_admitted=date_admitted, date_discharged=date_discharged, assigned_doc=assigned_doc,
                            assigned_room=assigned_room)
     db.session.add(new_patient)
