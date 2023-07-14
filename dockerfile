@@ -14,7 +14,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY . .
 
 # Expose the port that the Flask app will run on
-EXPOSE 5000
+EXPOSE 5001
 
 # Set the environment variables for the PostgreSQL connection
 ENV POSTGRES_HOST=postgres-HMS
